@@ -1,0 +1,25 @@
+{
+    "name": "pwd",
+    "version": "1.0.0",
+    "description": "call video, translated and flashcard",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/9ian9/PBL6_Speed_to_text.git"
+    },
+    "author": "Giang Tien Anh",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/9ian9/PBL6_Speed_to_text/issues"
+    },
+    "homepage": "https://github.com/9ian9/PBL6_Speed_to_text#readme",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "express": "^4.21.1",
+        "mysql2": "^3.11.4",
+        "sequelize": "^6.37.5"
+    }
+}
