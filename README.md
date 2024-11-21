@@ -28,7 +28,7 @@ speed_to_text/
 │ └── video.ejs
 ├── app.js
 ├── package.json
-
+![alt text](image.png)
 public: Chứa các file tĩnh như CSS, hình ảnh, JavaScript.
 
 routes: Xác định các route (đường dẫn) và xử lý các yêu cầu HTTP.
