@@ -1,0 +1,20 @@
+{
+    "app_title": "Cuộc gọi video nhiều người",
+    "record_video": "Ghi video",
+    "record_screen": "Ghi màn hình",
+    "close": "Đóng",
+    "create_room": "Tạo Phòng",
+    "your_name": "Tên của bạn",
+    "enter_room": "Vào Phòng",
+    "chat": "CHAT",
+    "send": "Gửi",
+    "type_here": "Nhập ở đây...",
+    "room_name": "Tên Phòng",
+    "your_name_placeholder": "Nhập tên của bạn",
+    "your_room_placeholder": "Nhập tên phòng",
+    "roomCreated": "Phòng được tạo thành công. Bấm",
+    "clickHere": "vào đây",
+    "shareLinkWithPartners": "để vào phòng. Chia sẻ liên kết với bạn bè của bạn.",
+    "allFieldsRequired": "Vui lòng điền đầy đủ thông tin",
+    "usernameRequired": "Vui lòng nhập tên của bạn"
+}
