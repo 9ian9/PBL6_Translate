@@ -42,3 +42,8 @@ views: Chứa các template (ví dụ: EJS) để hiển thị giao diện ngư�
 app.js: File chính để khởi động ứng dụng.
 
 package.json: Quản lý các dependency (thư viện) của dự án.
+
+chạy lệnh: http://localhost:3000
+cài đặt chạy: sequelize
+
+- npm install ejs
