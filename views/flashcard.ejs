@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" href="../public/css/styles.min.css" />
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .translate-box {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+
+    <!-- Sidebar Start -->
+    <%- include('sidebar') %>
+    <!--  Sidebar End -->
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <%- include('header') %>
+      <!--  Header End -->
+      <div class="container-fluid">
+        <h1 class="mt-4">Flashcards - English Learning</h1>
+        
+        <!-- Flashcards content here -->
+        <div class="row">
+          <!-- Flashcard 1 -->
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-header">
+                <h5>Flashcard 1</h5>
+              </div>
+              <div class="card-body">
+                <p><strong>Word:</strong> Apple</p>
+                <p><strong>Meaning:</strong> A fruit that is usually red, green, or yellow.</p>
+                <p><strong>Example:</strong> I ate an apple for breakfast.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Flashcard 2 -->
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-header">
+                <h5>Flashcard 2</h5>
+              </div>
+              <div class="card-body">
+                <p><strong>Word:</strong> Book</p>
+                <p><strong>Meaning:</strong> A set of written, printed, or blank pages fastened together and bound in covers.</p>
+                <p><strong>Example:</strong> She is reading a book.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Flashcard 3 -->
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-header">
+                <h5>Flashcard 3</h5>
+              </div>
+              <div class="card-body">
+                <p><strong>Word:</strong> Car</p>
+                <p><strong>Meaning:</strong> A vehicle with four wheels that is powered by an engine and can carry a small number of people.</p>
+                <p><strong>Example:</strong> He drove his car to work.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Add more flashcards here if needed -->
+      </div>
+    </div>
+  </div>
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="../assets/js/sidebarmenu.js"></script>
+  <script src="../assets/js/app.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

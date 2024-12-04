@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard Detail</title>
+  <link rel="stylesheet" href="../public/css/styles.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Flashcard Detail</h1>
+    <div class="card">
+      <div class="card-header">
+        <h3><%= flashcard.word %></h3>
+      </div>
+      <div class="card-body">
+        <p><strong>Meaning:</strong> <%= flashcard.meaning %></p>
+        <p><strong>Example:</strong> <%= flashcard.example %></p>
+      </div>
+    </div>
+    <a href="/flashcards">Back to Flashcards List</a>
+  </div>
+</body>
+
+</html>
