@@ -9,6 +9,12 @@ sequelize.authenticate()
     .catch(err => console.log('Error: ' + err));
 
 const User = sequelize.define('User', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        unique: true
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
