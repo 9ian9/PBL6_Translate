@@ -1,218 +1,43 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <title>Multi-User Video Call</title>
-
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel='stylesheet' href='/css/app.css' type="text/css">
-
-    <script src='/socket.io/socket.io.js'></script>
-    <script type="module" src='public/js/rtc.js'></script>
-    <script type="module" src='public/js/events.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"
-        integrity="sha256-2qQheewaqnZlXJ3RJRghVUwD/3fD9HNqxh4C+zvgmF4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js'></script>
-    <script src='https://cdn.rawgit.com/yahoo/xss-filters/master/dist/xss-filters.js'></script>
-    <script src='assets/js/autolink.js'></script>
-    <script src="https://unpkg.com/i18next/i18next.min.js"></script>
-    <script src="https://unpkg.com/i18next-http-backend/i18nextHttpBackend.min.js"></script>
-    <script src="https://unpkg.com/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js"></script>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" href="../public/css/styles.min.css" />
 
 </head>
 
 <body>
-    <div class="custom-modal" id='recording-options-modal'>
-        <div class="custom-modal-content">
-            <div class="row text-center">
-                <div class="col-md-6 mb-2">
-                    <span class="record-option" id='record-video' data-i18n="record_video">Record video</span>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <span class="record-option" id='record-screen' data-i18n="record_screen">Record screen</span>
-                </div>
-            </div>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
 
-            <div class="row mt-3">
-                <div class="col-md-12 text-center">
-                    <button class="btn btn-outline-danger" id='closeModal' data-i18n="close">Close</button>
-                </div>
-            </div>
-        </div>
+    <!-- Sidebar Start -->
+    <%- include('sidebar') %>
+    <!--  Sidebar End -->
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+    <!--  Header Start -->
+    <%- include('header') %>
+    <!--  Header End -->
+    
+    <div class="container-fluid">
+        
+        
+        
+      </div>
     </div>
-
-    <nav class="navbar fixed-top bg-info rounded-0 d-print-none">
-        <div class="text-white">Video Call</div>
-        <select onchange="changeLanguage(this.value)">
-            <option value="en">English</option>
-            <option value="vi">Tiếng Việt</option>
-        </select>
-
-        <div class="pull-right room-comm" hidden>
-            <span class="text-white mr-5">
-                ID: <span id='randomNumber'></span>
-            </span>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
-                <i class="fa fa-video text-white"></i>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
-                <i class="fa fa-microphone-alt text-white"></i>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
-                <i class="fa fa-desktop text-white"></i>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
-                <i class="fa fa-dot-circle text-white"></i>
-            </button>
-
-            <button class="btn btn-sm text-white pull-right btn-no-effect" id='toggle-chat-pane'>
-                <i class="fa fa-comment"></i> <span class="badge badge-danger very-small font-weight-lighter"
-                    id='new-chat-notification' hidden>New</span>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect text-white">
-                <a href="/" class="text-white text-decoration-none"><i class="fa fa-sign-out-alt text-white"
-                        title="Leave"></i></a>
-            </button>
-        </div>
-    </nav>
-
-    <div class="container-fluid" id='room-create' hidden>
-        <div class="row">
-            <div class="col-12 h2 mt-5 text-center" data-i18n="create_room"></div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-12 text-center">
-                <span class="form-text small text-danger" id='err-msg'></span>
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <label for="room-name" data-i18n="room_name">Room Name</label>
-                <input type="text" id='room-name' class="form-control rounded-0" placeholder=""
-                    data-i18n="your_room_placeholder">
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <label for="your-name" data-i18n="your_name">Your Name</label>
-                <input type="text" id='your-name' class="form-control rounded-0" placeholder="Your Name"
-                    data-i18n="your_name">
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <button id='create-room' class="btn btn-block rounded-0 btn-info" data-i18n="create_room">Create
-                    Room</button>
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3" id='room-created'></div>
-        </div>
-    </div>
-
-    <div class="container-fluid" id='username-set' hidden>
-        <div class="row">
-            <div class="col-12 h4 mt-5 text-center" data-i18n="your_name">Your Name</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-12 text-center">
-                <span class="form-text small text-danger" id='err-msg-username'></span>
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <label for="username" data-i18n="your_name">Your Name</label>
-                <input type="text" id='username' class="form-control rounded-0" placeholder=""
-                    data-i18n="your_name_placeholder">
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <button id='enter-room' class="btn btn-block rounded-0 btn-info" data-i18n="enter_room">Enter
-                    Room</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid room-comm" hidden>
-        <div class="row">
-            <video class="local-video mirror-mode" id='local' volume='0' autoplay muted></video>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 main" id='main-section'>
-                <div class="row mt-2 mb-2" id='videos'></div>
-            </div>
-
-            <div class="col-md-3 chat-col d-print-none mb-2 bg-info" id='chat-pane' hidden>
-                <div class="row">
-                    <div class="col-12 text-center h2 mb-3" data-i18n="chat">CHAT</div>
-                </div>
-
-                <div id='chat-messages'></div>
-
-                <form>
-                    <div class="input-group mb-3">
-                        <textarea id="chat-input" class="form-control rounded-0 chat-box border-info" rows='3'
-                            placeholder="" data-i18n="type_here"></textarea>
-                        <div class="input-group-append" id='chat-input-btn'>
-                            <button type="button" class="btn btn-dark rounded-0 border-info btn-no-effect"
-                                data-i18n="send">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="/js/rtc.js"></script>
+  </div>
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="../assets/js/sidebarmenu.js"></script>
+  <script src="../assets/js/app.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 
 </html>
-<script>
-    // Khởi tạo i18n với backend để tải file JSON
-    i18next
-        .use(i18nextHttpBackend)
-        .use(i18nextBrowserLanguageDetector)
-        .init({
-            lng: 'en',
-            fallbackLng: 'en',
-            debug: true,
-            backend: {
-                loadPath: '/locales/{{lng}}.json'
-            }
-        }, function (err, t) {
-            // Cập nhật nội dung giao diện khi i18n sẵn sàng
-            updateContent();
-        });
-
-    // Hàm cập nhật nội dung giao diện
-    function updateContent() {
-        document.title = i18next.t('app_title');
-        document.getElementById('record-video').innerText = i18next.t('record_video');
-        document.getElementById('record-screen').innerText = i18next.t('record_screen');
-        document.getElementById('closeModal').innerText = i18next.t('close');
-        document.getElementById('create-room').innerText = i18next.t('create_room');
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.setAttribute('placeholder', i18next.t(el.dataset.i18n));
-            } else {
-                // Cập nhật nội dung văn bản thông thường
-                el.innerText = i18next.t(el.dataset.i18n);
-            }
-        });
-    }
-    document.querySelector('select').value = i18next.language || 'en';
-    // Đổi ngôn ngữ khi người dùng chọn
-    function changeLanguage(lng) {
-        i18next.changeLanguage(lng, updateContent);
-    }
-</script>

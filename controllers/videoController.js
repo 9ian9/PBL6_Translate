@@ -6,3 +6,9 @@ exports.startCall = (req, res) => {
     // Logic để bắt đầu cuộc gọi video
     res.send('Starting video call...');
 };
+
+// Hàm hiển thị trang video.ejs
+exports.getVideoPage = (req, res) => {
+    // Trả về trang video.ejs
+    res.render('video');
+};
