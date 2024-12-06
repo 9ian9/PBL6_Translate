@@ -1,144 +1,124 @@
-<div class="custom-modal" id='recording-options-modal'>
-        <div class="custom-modal-content">
-            <div class="row text-center">
-                <div class="col-md-6 mb-2">
-                    <span class="record-option" id='record-video' data-i18n="record_video">Record video</span>
+{% extends "layouts/base.html" %}
+
+{% block title %} Page User {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Edit Profile</h4>
+                  <p class="card-category">Complete your profile</p>
                 </div>
-                <div class="col-md-6 mb-2">
-                    <span class="record-option" id='record-screen' data-i18n="record_screen">Record screen</span>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-12 text-center">
-                    <button class="btn btn-outline-danger" id='closeModal' data-i18n="close">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <nav class="navbar fixed-top bg-info rounded-0 d-print-none">
-        <div class="text-white">Video Call</div>
-        <select onchange="changeLanguage(this.value)">
-            <option value="en">English</option>
-            <option value="vi">Tiếng Việt</option>
-        </select>
-
-        <div class="pull-right room-comm" hidden>
-            <span class="text-white mr-5">
-                ID: <span id='randomNumber'></span>
-            </span>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
-                <i class="fa fa-video text-white"></i>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
-                <i class="fa fa-microphone-alt text-white"></i>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
-                <i class="fa fa-desktop text-white"></i>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
-                <i class="fa fa-dot-circle text-white"></i>
-            </button>
-
-            <button class="btn btn-sm text-white pull-right btn-no-effect" id='toggle-chat-pane'>
-                <i class="fa fa-comment"></i> <span class="badge badge-danger very-small font-weight-lighter"
-                    id='new-chat-notification' hidden>New</span>
-            </button>
-
-            <button class="btn btn-sm rounded-0 btn-no-effect text-white">
-                <a href="/" class="text-white text-decoration-none"><i class="fa fa-sign-out-alt text-white"
-                        title="Leave"></i></a>
-            </button>
-        </div>
-    </nav>
-
-    <div class="container-fluid" id='room-create' hidden>
-        <div class="row">
-            <div class="col-12 h2 mt-5 text-center" data-i18n="create_room"></div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-12 text-center">
-                <span class="form-text small text-danger" id='err-msg'></span>
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <label for="room-name" data-i18n="room_name">Room Name</label>
-                <input type="text" id='room-name' class="form-control rounded-0" placeholder=""
-                    data-i18n="your_room_placeholder">
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <label for="your-name" data-i18n="your_name">Your Name</label>
-                <input type="text" id='your-name' class="form-control rounded-0" placeholder="Your Name"
-                    data-i18n="your_name">
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <button id='create-room' class="btn btn-block rounded-0 btn-info" data-i18n="create_room">Create
-                    Room</button>
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3" id='room-created'></div>
-        </div>
-    </div>
-
-    <div class="container-fluid" id='username-set' hidden>
-        <div class="row">
-            <div class="col-12 h4 mt-5 text-center" data-i18n="your_name">Your Name</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-12 text-center">
-                <span class="form-text small text-danger" id='err-msg-username'></span>
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <label for="username" data-i18n="your_name">Your Name</label>
-                <input type="text" id='username' class="form-control rounded-0" placeholder=""
-                    data-i18n="your_name_placeholder">
-            </div>
-
-            <div class="col-12 col-md-4 offset-md-4 mb-3">
-                <button id='enter-room' class="btn btn-block rounded-0 btn-info" data-i18n="enter_room">Enter
-                    Room</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid room-comm" hidden>
-        <div class="row">
-            <video class="local-video mirror-mode" id='local' volume='0' autoplay muted></video>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 main" id='main-section'>
-                <div class="row mt-2 mb-2" id='videos'></div>
-            </div>
-
-            <div class="col-md-3 chat-col d-print-none mb-2 bg-info" id='chat-pane' hidden>
-                <div class="row">
-                    <div class="col-12 text-center h2 mb-3" data-i18n="chat">CHAT</div>
-                </div>
-
-                <div id='chat-messages'></div>
-
-                <form>
-                    <div class="input-group mb-3">
-                        <textarea id="chat-input" class="form-control rounded-0 chat-box border-info" rows='3'
-                            placeholder="" data-i18n="type_here"></textarea>
-                        <div class="input-group-append" id='chat-input-btn'>
-                            <button type="button" class="btn btn-dark rounded-0 border-info btn-no-effect"
-                                data-i18n="send">Send</button>
+                <div class="card-body">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">UserID (disabled)</label>
+                          <input type="text" class="form-control" disabled value="{{ current_user.id }}">
                         </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Username</label>
+                          <input type="text" class="form-control" value="{{ current_user.username }}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Email address</label>
+                          <input type="email" class="form-control" value="{{ current_user.email }}">
+                        </div>
+                      </div>
                     </div>
-                </form>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Fist Name</label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Last Name</label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Adress</label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">City</label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Country</label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Postal Code</label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>About Me</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
+                            <textarea class="form-control" rows="5"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-    <script src="/js/rtc.js"></script>
+            <div class="col-md-4">
+              <div class="card card-profile">
+                <div class="card-avatar">
+                  <a href="#pablo">
+                    <img class="img" src="/static/assets/img/faces/marc.jpg" />
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h6 class="card-category text-gray">
+                    {{ current_user.username }}
+                  </h6>
+                  <h4 class="card-title">
+                    {{ current_user.email }}
+                  </h4>
+                  <p class="card-description">
+                    Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                  </p>
+                  <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

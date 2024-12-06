@@ -8,4 +8,5 @@ router.post('/start-call', videoController.startCall);
 // Route để hiển thị trang video.ejs
 router.get('/video', videoController.getVideoPage);
 
+
 module.exports = router;
