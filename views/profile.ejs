@@ -7,6 +7,164 @@
     <title>Profile</title>
     <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../public/css/styles.min.css" />
+    <style>
+      /* Tổng quát */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.card-header {
+  background-color: #70AAF7;
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+}
+
+.card-header-primary h4 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.card-header-primary p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+/* Form */
+form {
+  margin-top: 20px;
+}
+
+form .form-group {
+  margin-bottom: 20px;
+}
+
+form label {
+  font-size: 14px;
+  color: #555;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #70AAF7;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+form textarea {
+  resize: none;
+}
+
+button[type="submit"] {
+  background-color: #70AAF7;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #70AAF7;
+}
+
+/* Card Avatar */
+.card-profile .card-avatar {
+  text-align: center;
+  margin-top: -50px;
+}
+
+.card-profile .card-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-profile .card-body {
+  text-align: center;
+  padding: 15px;
+}
+
+.card-profile h6 {
+  font-size: 14px;
+  color: #999;
+  margin: 10px 0;
+}
+
+.card-profile h4 {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.card-profile p {
+  font-size: 14px;
+  color: #777;
+  margin: 10px 0;
+}
+
+.card-profile a.btn {
+  background-color: #70AAF7;
+  color: #fff;
+  border-radius: 5px;
+  padding: 8px 15px;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  transition: all 0.3s ease-in-out;
+}
+
+.card-profile a.btn:hover {
+  background-color: #70AAF7;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .card {
+    margin: 10px;
+  }
+
+  form .row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  form .col-md-4,
+  form .col-md-6,
+  form .col-md-12 {
+    width: 100%;
+  }
+}
+
+    </style>
 </head>
 
 <body>
@@ -34,19 +192,14 @@
                 <div class="card-body">
                   <form>
                     <div class="row">
+                      
                       <div class="col-md-5">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">UserID (disabled)</label>
-                          <input type="text" class="form-control" disabled value="{{ current_user.id }}">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">Username</label>
                           <input type="text" class="form-control" value="{{ current_user.username }}">
                         </div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-5">
                         <div class="form-group">
                           <label class="bmd-label-floating">Email address</label>
                           <input type="email" class="form-control" value="{{ current_user.email }}">
@@ -67,40 +220,12 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Adress</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">City</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Country</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Postal Code</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                    </div>
+                      
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
                           <label>About Me</label>
                           <div class="form-group">
-                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
                             <textarea class="form-control" rows="5"></textarea>
                           </div>
                         </div>
@@ -113,10 +238,10 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card card-profile">
-                <div class="card-avatar">
+              <div class="card card-profile" style="box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);">
+                <div class="card-avatar" style="margin-top: 30px;">
                   <a href="#pablo">
-                    <img class="img" src="/static/assets/img/faces/marc.jpg" />
+                    <img class="img" src="../public/images/profile/user-2.jpg" />
                   </a>
                 </div>
                 <div class="card-body">
@@ -138,7 +263,14 @@
       </div>
 
   </div>
-  
+  <script src="../public/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="../public/libs/simplebar/dist/simplebar.js"></script>
+  <script src="../public/js/sidebarmenu.js"></script>
+  <script src="../public/js/app.min.js"></script>
+  <script src="../public/js/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   
 </body>
 

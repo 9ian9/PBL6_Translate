@@ -71,10 +71,9 @@ app.get('/vocabulary', (req, res) => {
 app.get('/flashcard', (req, res) => {
     res.render('flashcard', { title: 'Flashcard' });
 });
-app.get('/profile', (req, res)=> {
+app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
 });
-
 
 
 
