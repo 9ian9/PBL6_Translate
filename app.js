@@ -38,7 +38,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/auth', authRoutes);
 app.use('/video', videoRoutes);
 app.use('/translate', translateRouter);
-app.use('/flashcards', flashcardRouter);
+app.use('/', flashcardRouter);
 app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
 
@@ -53,10 +53,10 @@ app.get('/', (req, res) => {
 });
 // Định nghĩa route để hiển thị video.ejs
 app.get('/video', (req, res) => {
-    res.render('video');  // Đảm bảo rằng video.ejs có trong thư mục views
+    res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
 app.get('/chat', (req, res) => {
-    res.render('chat');  // Đảm bảo rằng video.ejs có trong thư mục views
+    res.render('chat'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
 
 // Route cho trang translate
@@ -69,10 +69,14 @@ app.get('/vocabulary', (req, res) => {
     res.render('vocabulary', { title: 'Vocabulary' });
 });
 app.get('/flashcard', (req, res) => {
-    res.render('flashcard', { title: 'Flashcard' });
+    res.render('flashcardTopic', { title: 'Flashcard' });
 });
-app.get('/profile', (req, res)=> {
+app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
+});
+app.use((req, res, next) => {
+    console.log(`Request URL: ${req.url}`);
+    next();
 });
 
 

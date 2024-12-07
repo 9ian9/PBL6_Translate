@@ -6,7 +6,7 @@ const authController = require('../controllers/authController');
 //router.get('/login', authController.getLoginPage);
 
 // Route để xử lý đăng nhập (POST request)
-router.post('/login', authController.login);
+router.post('/login', authController.loginAndGetTopics);
 
 // Route cho trang login
 router.get('/login', authController.getLoginPage);
@@ -15,7 +15,6 @@ router.get('/logout', (req, res) => {
     // Xử lý logout, ví dụ như xóa session hoặc token
     res.redirect('/');
 });
-
 // Route GET để hiển thị trang đăng ký
 router.get('/register', authController.getRegisterPage);
 
