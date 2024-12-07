@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const videoRoutes = require('./routes/videoRouter');
 const translateRouter = require('./routes/translateRouter');
 const flashcardRouter = require('./routes/flashcardRouter');
+const profileRouter = require('./routes/profileRouter');
 
 const app = express();
 const server = http.Server(app);
@@ -38,6 +39,8 @@ app.use('/auth', authRoutes);
 app.use('/video', videoRoutes);
 app.use('/translate', translateRouter);
 app.use('/flashcards', flashcardRouter);
+app.use('/chat', videoRoutes);
+app.use('/profile', profileRouter);
 
 
 // Route cho trang chủ để render login.ejs
@@ -52,6 +55,9 @@ app.get('/', (req, res) => {
 app.get('/video', (req, res) => {
     res.render('video');  // Đảm bảo rằng video.ejs có trong thư mục views
 });
+app.get('/chat', (req, res) => {
+    res.render('chat');  // Đảm bảo rằng video.ejs có trong thư mục views
+});
 
 // Route cho trang translate
 app.get('/translate', (req, res) => {
@@ -65,6 +71,11 @@ app.get('/vocabulary', (req, res) => {
 app.get('/flashcard', (req, res) => {
     res.render('flashcard', { title: 'Flashcard' });
 });
+app.get('/profile', (req, res)=> {
+    res.render('profile', { title: 'Profile' });
+});
+
+
 
 
 // Cấu hình WebSocket
