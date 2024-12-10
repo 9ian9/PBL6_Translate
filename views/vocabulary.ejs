@@ -2,167 +2,166 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
-  <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
-  <link rel="stylesheet" href="../public/css/styles.min.css" />
-  <style>
-    .vocabulary-section {
-      margin-top: 30px;
-    }
-
-    .vocabulary-category {
-      margin-bottom: 20px;
-    }
-
-    .vocabulary-category h3 {
-      font-size: 1.5rem;
-      color: #333;
-      margin-bottom: 15px;
-    }
-
-    .vocabulary-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .vocabulary-item {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .vocabulary-item h5 {
-      font-size: 1.25rem;
-      margin-bottom: 10px;
-    }
-
-    .vocabulary-item p {
-      font-size: 1rem;
-      color: #666;
-    }
-
-    .search-bar {
-      margin-bottom: 20px;
-    }
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" href="../public/css/styles.min.css" />
+    <style>
+        .vocabulary-section {
+            margin-top: 30px;
+        }
+        
+        .vocabulary-category {
+            margin-bottom: 20px;
+        }
+        
+        .vocabulary-category h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .vocabulary-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .vocabulary-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .vocabulary-item h5 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        
+        .vocabulary-item p {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .search-bar {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
-  <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
 
-    <!-- Sidebar Start -->
-    <%- include('sidebar') %>
-      <!-- Sidebar End -->
+        <!-- Sidebar Start -->
+        <%- include('sidebar') %>
+            <!-- Sidebar End -->
 
-      <!-- Main wrapper -->
-      <div class="body-wrapper">
-        <!-- Header Start -->
-        <%- include('header') %>
-          <!-- Header End -->
+            <!-- Main wrapper -->
+            <div class="body-wrapper">
+                <!-- Header Start -->
+                <%- include('header') %>
+                    <!-- Header End -->
 
-          <!-- Main content goes here -->
-          <div class="container-fluid">
-            <h1 class="mt-4">English Vocabulary</h1>
-            <p>This page contains various categories of English vocabulary for you to learn.</p>
+                    <!-- Main content goes here -->
+                    <div class="container-fluid">
+                        <h1 class="mt-4">English Vocabulary</h1>
+                        <p>This page contains various categories of English vocabulary for you to learn.</p>
 
-            <!-- Search Bar -->
-            <div class="search-bar">
-              <input type="text" class="form-control" id="search-input" placeholder="Search vocabulary...">
+                        <!-- Search Bar -->
+                        <div class="search-bar">
+                            <input type="text" class="form-control" id="search-input" placeholder="Search vocabulary...">
+                        </div>
+
+                        <!-- Vocabulary Sections -->
+                        <div class="vocabulary-section">
+                            <!-- Category 1: Everyday Words -->
+                            <div class="vocabulary-category">
+                                <h3>Everyday Words</h3>
+                                <div class="vocabulary-list">
+                                    <div class="vocabulary-item">
+                                        <h5>Book</h5>
+                                        <p>A set of written, printed, or blank pages fastened together.</p>
+                                    </div>
+                                    <div class="vocabulary-item">
+                                        <h5>Table</h5>
+                                        <p>A piece of furniture with a flat surface.</p>
+                                    </div>
+                                    <div class="vocabulary-item">
+                                        <h5>Computer</h5>
+                                        <p>An electronic device for storing and processing data.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Category 2: Travel -->
+                            <div class="vocabulary-category">
+                                <h3>Travel</h3>
+                                <div class="vocabulary-list">
+                                    <div class="vocabulary-item">
+                                        <h5>Flight</h5>
+                                        <p>The act of flying or an aircraft journey.</p>
+                                    </div>
+                                    <div class="vocabulary-item">
+                                        <h5>Hotel</h5>
+                                        <p>A place where travelers can stay overnight.</p>
+                                    </div>
+                                    <div class="vocabulary-item">
+                                        <h5>Luggage</h5>
+                                        <p>Suitcases or other bags in which clothing and other personal items are packed for traveling.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Category 3: Food -->
+                            <div class="vocabulary-category">
+                                <h3>Food</h3>
+                                <div class="vocabulary-list">
+                                    <div class="vocabulary-item">
+                                        <h5>Apple</h5>
+                                        <p>A round fruit with red or green skin and a whitish interior.</p>
+                                    </div>
+                                    <div class="vocabulary-item">
+                                        <h5>Pizza</h5>
+                                        <p>An Italian dish consisting of a usually round, flat base of dough topped with various ingredients.
+                                        </p>
+                                    </div>
+                                    <div class="vocabulary-item">
+                                        <h5>Banana</h5>
+                                        <p>A long, curved fruit with a yellow skin.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
+    </div>
+    <!-- Optional: Add JavaScript for search functionality -->
+    <script>
+        document.getElementById('search-input').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const items = document.querySelectorAll('.vocabulary-item');
 
-            <!-- Vocabulary Sections -->
-            <div class="vocabulary-section">
-              <!-- Category 1: Everyday Words -->
-              <div class="vocabulary-category">
-                <h3>Everyday Words</h3>
-                <div class="vocabulary-list">
-                  <div class="vocabulary-item">
-                    <h5>Book</h5>
-                    <p>A set of written, printed, or blank pages fastened together.</p>
-                  </div>
-                  <div class="vocabulary-item">
-                    <h5>Table</h5>
-                    <p>A piece of furniture with a flat surface.</p>
-                  </div>
-                  <div class="vocabulary-item">
-                    <h5>Computer</h5>
-                    <p>An electronic device for storing and processing data.</p>
-                  </div>
-                </div>
-              </div>
+            items.forEach(item => {
+                const title = item.querySelector('h5').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
 
-              <!-- Category 2: Travel -->
-              <div class="vocabulary-category">
-                <h3>Travel</h3>
-                <div class="vocabulary-list">
-                  <div class="vocabulary-item">
-                    <h5>Flight</h5>
-                    <p>The act of flying or an aircraft journey.</p>
-                  </div>
-                  <div class="vocabulary-item">
-                    <h5>Hotel</h5>
-                    <p>A place where travelers can stay overnight.</p>
-                  </div>
-                  <div class="vocabulary-item">
-                    <h5>Luggage</h5>
-                    <p>Suitcases or other bags in which clothing and other personal items are packed for traveling.</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Category 3: Food -->
-              <div class="vocabulary-category">
-                <h3>Food</h3>
-                <div class="vocabulary-list">
-                  <div class="vocabulary-item">
-                    <h5>Apple</h5>
-                    <p>A round fruit with red or green skin and a whitish interior.</p>
-                  </div>
-                  <div class="vocabulary-item">
-                    <h5>Pizza</h5>
-                    <p>An Italian dish consisting of a usually round, flat base of dough topped with various
-                      ingredients.</p>
-                  </div>
-                  <div class="vocabulary-item">
-                    <h5>Banana</h5>
-                    <p>A long, curved fruit with a yellow skin.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-  </div>
-  <!-- Optional: Add JavaScript for search functionality -->
-  <script>
-    document.getElementById('search-input').addEventListener('input', function () {
-      const searchValue = this.value.toLowerCase();
-      const items = document.querySelectorAll('.vocabulary-item');
-
-      items.forEach(item => {
-        const title = item.querySelector('h5').textContent.toLowerCase();
-        const description = item.querySelector('p').textContent.toLowerCase();
-
-        if (title.includes(searchValue) || description.includes(searchValue)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    });
-  </script>
-  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-  <script src="../assets/js/sidebarmenu.js"></script>
-  <script src="../assets/js/app.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+                if (title.includes(searchValue) || description.includes(searchValue)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 
 </html>

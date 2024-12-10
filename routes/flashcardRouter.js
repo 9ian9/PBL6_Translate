@@ -3,6 +3,6 @@ const router = express.Router();
 const flashcardController = require('../controllers/flashcardController');
 
 // Route để lấy vocabularies theo topicId
-router.get('/vocabularies/:topicId', flashcardController.getVocabularyByTopicId);
+router.get('/vocabularies', flashcardController.getVocabularyByTopicId);
 
 module.exports = router;

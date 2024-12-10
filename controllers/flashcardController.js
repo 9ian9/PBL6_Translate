@@ -2,10 +2,9 @@ const Vocabulary = require('../models/Vocabulary'); // Mô hình Vocabulary
 const Topic = require('../models/Topic'); // Mô hình Topic
 
 exports.getVocabularyByTopicId = async(req, res) => {
-    const { topicId } = req.params; // Lấy topicId từ tham số URL
-    const { userId } = req.params; // Lấy topicId từ tham số URL
-
-    console.log(`Received userId: ${userId}`); // In ra topicId để kiểm tra
+    const { topicId } = req.query; // Lấy topicId từ query string
+    const { userId } = req.query; // Lấy userId từ query string
+    console.log(`Received userId here: ${userId}`); // In ra userId để kiểm tra
     console.log(`Received topicId: ${topicId}`); // In ra topicId để kiểm tra
 
     try {
@@ -18,33 +17,68 @@ exports.getVocabularyByTopicId = async(req, res) => {
             console.log('No vocabularies found for this topicId.');
         }
 
-        res.render('flashcardDetail', { title: 'Vocabularies', vocabularies });
+        // Lấy title của topic từ bảng Topic
+        const topic = await Topic.findByPk(topicId); // Tìm topic bằng primary key (topicId)
+        const topicTitle = topic ? topic.title : 'Unknown'; // Nếu tìm được topic, lấy title, nếu không thì trả về 'Unknown'
+        console.log(`topic title neeee: ${topicTitle}`);
+
+        // Truyền userId vào cùng với các dữ liệu khác khi render view
+        res.render('flashcardDetail', {
+            title: 'Vocabularies',
+            vocabularies,
+            userId,
+            topicId,
+            topicTitle // Truyền userId vào view
+        });
+        // Truyền dữ liệu vào view vocabulary.ejs
+        // if (req.path === '/vocabulary') {
+        //     // Nếu yêu cầu là hiển thị trang vocabulary.ejs
+        //     return res.render('vocabulary', {
+        //         title: 'Vocabulary List', // Tiêu đề trang
+        //         vocabularies, // Truyền danh sách từ vựng vào view
+        //         userId, // Truyền userId vào view
+        //         topicId, // Truyền topicId vào view
+        //         topicTitle // Truyền topicTitle vào view
+        //     });
+        // } else if (req.path === '/flashcardDetail') {
+        //     // Nếu yêu cầu là hiển thị trang flashcardDetail.ejs
+        //     return res.render('flashcardDetail', {
+        //         title: 'Flashcard Detail',
+        //         vocabularies, // Truyền danh sách từ vựng vào view
+        //         userId, // Truyền userId vào view
+        //         topicId, // Truyền topicId vào view
+        //         topicTitle // Truyền topicTitle vào view
+        //     });
+        // }
     } catch (error) {
         console.log('Error fetching vocabularies:', error); // In ra lỗi nếu có
         res.status(500).send('Server error');
     }
 };
-// flashcardController.js
 
-// Flashcards mẫu (sử dụng tạm thời cho demo)
-// const flashcards = [
-//     { id: 1, word: 'Apple', meaning: 'A fruit that is usually red, green, or yellow.', example: 'I ate an apple for breakfast.' },
-//     { id: 2, word: 'Book', meaning: 'A set of written, printed, or blank pages fastened together and bound in covers.', example: 'She is reading a book.' },
-//     { id: 3, word: 'Car', meaning: 'A vehicle with four wheels that is powered by an engine and can carry a small number of people.', example: 'He drove his car to work.' },
-//     // Thêm nhiều flashcards ở đây nếu cần
-//   ];
 
-//   // Lấy tất cả flashcards
-//   exports.getAllFlashcards = (req, res) => {
-//     res.render('flashcard', { flashcards });
-//   };
+// const Vocabulary = require('../models/Vocabulary'); // Mô hình Vocabulary
+// const Topic = require('../models/Topic'); // Mô hình Topic
 
-// Lấy flashcard theo id
-// exports.getFlashcardById = (req, res) => {
-//   const flashcard = flashcards.find(flashcard => flashcard.id === parseInt(req.params.id));
-//   if (flashcard) {
-//     res.render('flashcardDetail', { flashcard });
-//   } else {
-//     res.status(404).send('Flashcard not found');
-//   }
+// exports.getVocabularyByTopicId = async(req, res) => {
+//     const { topicId } = req.params; // Lấy topicId từ tham số URL
+//     const userId = req.query.userId; // Lấy userId từ query string
+//     console.log(`Received userId here: ${userId}`); // In ra topicId để kiểm tra
+//     console.log(`Received topicId: ${topicId}`); // In ra topicId để kiểm tra
+
+//     try {
+//         // Tìm vocabularies có title_id trùng với topicId
+//         const vocabularies = await Vocabulary.findAll({ where: { title_id: topicId } });
+
+//         console.log(`Found vocabularies: ${JSON.stringify(vocabularies)}`); // In ra vocabularies
+
+//         if (vocabularies.length === 0) {
+//             console.log('No vocabularies found for this topicId.');
+//         }
+
+//         res.render('flashcardDetail', { title: 'Vocabularies', vocabularies });
+//     } catch (error) {
+//         console.log('Error fetching vocabularies:', error); // In ra lỗi nếu có
+//         res.status(500).send('Server error');
+//     }
 // };

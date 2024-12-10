@@ -9,6 +9,7 @@ const videoRoutes = require('./routes/videoRouter');
 const translateRouter = require('./routes/translateRouter');
 const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
+const topicRouter = require('./routes/topicRouter');
 
 const app = express();
 const server = http.Server(app);
@@ -41,7 +42,7 @@ app.use('/translate', translateRouter);
 app.use('/', flashcardRouter);
 app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
-
+app.use('/', topicRouter);
 
 // Route cho trang chủ để render login.ejs
 app.get('/', (req, res) => {
@@ -51,6 +52,7 @@ app.get('/', (req, res) => {
 app.get('/', (req, res) => {
     res.render('register', { title: 'Register' });
 });
+
 // Định nghĩa route để hiển thị video.ejs
 app.get('/video', (req, res) => {
     res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
@@ -68,9 +70,9 @@ app.get('/translate', (req, res) => {
 app.get('/vocabulary', (req, res) => {
     res.render('vocabulary', { title: 'Vocabulary' });
 });
-app.get('/flashcard', (req, res) => {
-    res.render('listTopic', { title: 'Flashcard' });
-});
+// app.get('/flashcard', (req, res) => {
+//     res.render('listTopic', { title: 'Flashcard' });
+// });
 app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
 });

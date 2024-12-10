@@ -3,24 +3,31 @@ const bcrypt = require('bcrypt');
 
 const Topic = require('../models/Topic'); // Đường dẫn tới mô hình Topic
 
-exports.loginAndGetTopics = async(req, res) => {
+exports.loginPage = async(req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Tìm người dùng
         const user = await User.findOne({ where: { username } });
         if (user) {
-            // So sánh mật khẩu
             if (password === user.password) {
-                // Lấy các topic của người dùng
-                const topics = await Topic.findAll({ where: { user_id: user.id } });
-                res.render('home', { title: 'Home', username: user.username, userId: user.id, topics });
+                // Redirect đến trang chính với userId
+                return res.redirect(`/home?userId=${user.id}`);
             } else {
                 res.send('Invalid username or password');
             }
         } else {
             res.send('User not found');
         }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server error');
+    }
+};
+exports.getHomePageAndTopics = async(req, res) => {
+    const userId = req.query.userId; // Lấy userId từ query string
+    try {
+        const topics = await Topic.findAll({ where: { user_id: userId } });
+        res.render('home', { title: 'Home', userId, topics });
     } catch (error) {
         console.log(error);
         res.status(500).send('Server error');
