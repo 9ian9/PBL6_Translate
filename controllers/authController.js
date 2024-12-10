@@ -14,7 +14,7 @@ exports.loginAndGetTopics = async(req, res) => {
             if (password === user.password) {
                 // Lấy các topic của người dùng
                 const topics = await Topic.findAll({ where: { user_id: user.id } });
-                res.render('home', { title: 'Home', username: user.username, topics });
+                res.render('home', { title: 'Home', username: user.username, userId: user.id, topics });
             } else {
                 res.send('Invalid username or password');
             }

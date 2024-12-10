@@ -69,7 +69,7 @@ app.get('/vocabulary', (req, res) => {
     res.render('vocabulary', { title: 'Vocabulary' });
 });
 app.get('/flashcard', (req, res) => {
-    res.render('flashcardTopic', { title: 'Flashcard' });
+    res.render('listTopic', { title: 'Flashcard' });
 });
 app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });

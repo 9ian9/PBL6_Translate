@@ -3,6 +3,9 @@ const Topic = require('../models/Topic'); // Mô hình Topic
 
 exports.getVocabularyByTopicId = async(req, res) => {
     const { topicId } = req.params; // Lấy topicId từ tham số URL
+    const { userId } = req.params; // Lấy topicId từ tham số URL
+
+    console.log(`Received userId: ${userId}`); // In ra topicId để kiểm tra
     console.log(`Received topicId: ${topicId}`); // In ra topicId để kiểm tra
 
     try {
