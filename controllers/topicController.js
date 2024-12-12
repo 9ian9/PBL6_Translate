@@ -1,4 +1,5 @@
 const Topic = require('../models/Topic'); // Mô hình Topic
+const Vocabulary = require('../models/Vocabulary'); // Mô hình Topic
 const User = require('../models/User');
 exports.getFlashcardPage = async(req, res) => {
     const { userId } = req.query; // Lấy userId từ query string
