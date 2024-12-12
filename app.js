@@ -37,8 +37,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Định nghĩa các route
 app.use('/auth', authRoutes);
-app.use('/video', videoRoutes);
-app.use('/translate', translateRouter);
+app.use('/', videoRoutes);
+app.use('/', translateRouter);
 app.use('/', flashcardRouter);
 app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
