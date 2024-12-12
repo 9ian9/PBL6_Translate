@@ -27,9 +27,6 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// Cấu hình favicon
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
 // Cấu hình view engine là EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Định nghĩa các route
 app.use('/auth', authRoutes);
-app.use('/', videoRoutes);
+app.use('/video', videoRoutes);
 app.use('/', translateRouter);
 app.use('/', flashcardRouter);
 app.use('/chat', videoRoutes);
@@ -62,14 +59,14 @@ app.get('/chat', (req, res) => {
 });
 
 // Route cho trang translate
-app.get('/translate', (req, res) => {
-    res.render('translate', { title: 'Translate' });
-});
+// app.get('/translate', (req, res) => {
+//     res.render('translate', { title: 'Translate' });
+// });
 
 // Route cho trang vocabulary
-app.get('/vocabulary', (req, res) => {
-    res.render('vocabulary', { title: 'Vocabulary' });
-});
+// app.get('/vocabulary', (req, res) => {
+//     res.render('vocabulary', { title: 'Vocabulary' });
+// });
 // app.get('/flashcard', (req, res) => {
 //     res.render('listTopic', { title: 'Flashcard' });
 // });
@@ -80,8 +77,6 @@ app.use((req, res, next) => {
     console.log(`Request URL: ${req.url}`);
     next();
 });
-
-
 
 
 // Cấu hình WebSocket
