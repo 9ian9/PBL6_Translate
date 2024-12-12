@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
-const socketIO = require('socket.io');
+//const socketIO = require('socket.io');
+const { Server } = require('socket.io');
 const stream = require('./ws/stream');
 const authRoutes = require('./routes/auth');
 const videoRoutes = require('./routes/videoRouter');
@@ -11,11 +12,20 @@ const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
 
 const app = express();
-const server = http.Server(app);
-const io = socketIO(server);
-
+//const server = http.Server(app);
+//const io = socketIO(server);
+const server = http.createServer(app);
+const io = new Server(server);
+require('./ws/videocall/socket')(io);
 app.use(authRoutes);
 
+const videoApiRoutes = require('./views/api/video');
+app.use('/api/video', videoApiRoutes);
+
+
+const videocallRoutes = require('./routes/videocallRouter');
+const socket = require('./ws/videocall/socket');
+app.use('/videocall', videocallRoutes);
 
 
 // Middleware để parse body của request
@@ -25,6 +35,7 @@ app.use(express.json());
 // Cấu hình đường dẫn tĩnh
 app.use(express.static('public'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+
 
 // Cấu hình favicon
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -41,6 +52,8 @@ app.use('/translate', translateRouter);
 app.use('/flashcards', flashcardRouter);
 app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
+app.use('/room', videoRoutes);
+
 
 
 // Route cho trang chủ để render login.ejs
@@ -57,6 +70,9 @@ app.get('/video', (req, res) => {
 });
 app.get('/chat', (req, res) => {
     res.render('chat');  // Đảm bảo rằng video.ejs có trong thư mục views
+});
+app.get('/room', (req, res) => {
+    res.render('room');  // Đảm bảo rằng video.ejs có trong thư mục views
 });
 
 // Route cho trang translate
@@ -82,7 +98,8 @@ io.of('/stream').on('connection', stream);
 
 
 // Khởi động server
-const PORT = 3000;
+const PORT = 5000;
 server.listen(PORT, () => {
+    socket(server);
     console.log(`Server is running on http://localhost:${PORT}`);
 });

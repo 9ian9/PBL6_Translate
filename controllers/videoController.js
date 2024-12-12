@@ -12,4 +12,6 @@ exports.getVideoPage = (req, res) => {
     // Trả về trang video.ejs
     res.render('video');
 };
-
+exports.getRoomPage =(req, res) => {
+    res.render('room');
+};

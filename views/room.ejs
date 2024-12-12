@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" href="../public/css/styles.min.css" />
+
+
+
+    
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"
+        integrity="sha256-2qQheewaqnZlXJ3RJRghVUwD/3fD9HNqxh4C+zvgmF4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js'></script>
+    <script src='https://cdn.rawgit.com/yahoo/xss-filters/master/dist/xss-filters.js'></script>
+    <!--<script src='assets/js/autolink.js'></script> 
+    <script type="module" src='public/js/rtc.js'></script>
+    <script type="module" src='public/js/events.js'></script>
+    <script src='/socket.io/socket.io.js'></script>-->
+    <script src="https://unpkg.com/i18next/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend/i18nextHttpBackend.min.js"></script>
+    <script src="https://unpkg.com/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.min.js"></script>
+    <script defer="defer" src="../client/dist/js/app.min.js"></script>
+    <link href="../client/dist/css/app.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+
+    <!-- Sidebar Start -->
+    <%- include('sidebar') %>
+    <!-- Sidebar End -->
+
+    <!-- Main wrapper -->
+    <div class="body-wrapper">
+      <!-- Header Start -->
+      <%- include('header') %>
+      <!-- Header End -->
+
+      <!-- Main content goes here -->
+      <div class="container-fluid">
+        
+        <div id="root"></div>
+
+    
+      
+      </div>
+    </div>
+  </div>
+  <script>
+    // Khởi tạo i18n với backend để tải file JSON
+    i18next
+        .use(i18nextHttpBackend)
+        .use(i18nextBrowserLanguageDetector)
+        .init({
+            lng: 'en',
+            fallbackLng: 'en',
+            debug: true,
+            backend: {
+                loadPath: '/locales/{{lng}}.json'
+            }
+        }, function (err, t) {
+            // Cập nhật nội dung giao diện khi i18n sẵn sàng
+            updateContent();
+        });
+
+    // Hàm cập nhật nội dung giao diện
+    function updateContent() {
+        document.title = i18next.t('app_title');
+        document.getElementById('record-video').innerText = i18next.t('record_video');
+        document.getElementById('record-screen').innerText = i18next.t('record_screen');
+        document.getElementById('closeModal').innerText = i18next.t('close');
+        document.getElementById('create-room').innerText = i18next.t('create_room');
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.setAttribute('placeholder', i18next.t(el.dataset.i18n));
+            } else {
+                // Cập nhật nội dung văn bản thông thường
+                el.innerText = i18next.t(el.dataset.i18n);
+            }
+        });
+    }
+    document.querySelector('select').value = i18next.language || 'en';
+    // Đổi ngôn ngữ khi người dùng chọn
+    function changeLanguage(lng) {
+        i18next.changeLanguage(lng, updateContent);
+    }
+</script>
+
+  <script src="../public/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="../public/libs/simplebar/dist/simplebar.js"></script>
+  <script src="../public/js/sidebarmenu.js"></script>
+  <script src="../public/js/app.min.js"></script>
+  <script src="../public/js/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>
