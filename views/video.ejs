@@ -4,144 +4,171 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <title>Message</title>
     <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../public/css/styles.min.css" />
-    <!-- Thêm FontAwesome vào file HTML -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
-
-        <!-- Sidebar Start -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
         <%- include('sidebar', { userId: userId }) %>
-            <!--  Sidebar End -->
-
-            <!--  Main wrapper -->
             <div class="body-wrapper">
-                <!--  Header Start -->
                 <%- include('header') %>
-                    <!--  Header End -->
                     <div class="container-fluid">
                         <div class="row mt-4">
-                            <!-- Danh sách bạn bè -->
                             <div class="col-md-4 col-sm-12 border-end" style="max-height: 80vh; overflow-y: auto;">
                                 <h5 class="text-center">Friends List</h5>
                                 <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Alice</span>
-                                        <button class="btn btn-sm btn-primary select-friend"
-                                            data-friend-id="1">Chat</button>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Bob</span>
-                                        <button class="btn btn-sm btn-primary select-friend"
-                                            data-friend-id="2">Chat</button>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Charlie</span>
-                                        <button class="btn btn-sm btn-primary select-friend"
-                                            data-friend-id="3">Chat</button>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>David</span>
-                                        <button class="btn btn-sm btn-primary select-friend"
-                                            data-friend-id="4">Chat</button>
-                                    </li>
+                                    <% users.forEach(user=> { %>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <span>
+                                                <%= user.username %>
+                                            </span>
+                                            <button class="btn btn-sm btn-primary select-friend" data-friend-id="<%= user.id %>">Chat</button>
+                                        </li>
+                                        <% }); %>
                                 </ul>
                             </div>
-
-                            <!-- Khu vực chat -->
                             <div class="col-md-8 col-sm-12">
                                 <h5 class="text-center">Chat with: <span id="chat-with">Select a friend</span></h5>
-
-                                <div class="chat-box border p-3 mb-2" style="height: 60vh; overflow-y: auto;"
-                                    id="chat-box">
-                                    <!-- Container chứa các nút gọi -->
-                                    <div class="call-buttons">
-                                        <button class="video-call" title="Video Call">
-                                            <i class="fas fa-video"></i>
-                                        </button>
-                                        <button class="audio-call" title="Audio Call">
-                                            <i class="fas fa-phone-alt"></i>
-                                        </button>
-                                    </div>
-
-                                    <hr style="border: 0; border-top: 2px solid #000; margin: 50px 0;">
-
-
-                                    <p class="text-muted text-center">No messages yet</p>
+                                <div class="chat-box border p-3 mb-2" style="height: 60vh; overflow-y: auto;" id="chat-box">
+                                    <p class="text-muted text-center">Select a friend to start chatting!</p>
                                 </div>
-
                                 <div class="d-flex">
-                                    <input type="text" id="message-input" class="form-control me-2"
-                                        placeholder="Type your message..." />
-                                    <button id="send-message" class="btn btn-success">Send</button>
+                                    <input type="text" id="message-input" class="form-control me-2" placeholder="Type your message..." />
+                                    <button id="send-message" class="btn" style="background-color: #0069d9; border-color: #0062cc;" disabled>Send</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
             </div>
     </div>
 
-    <script>
-        // Thay đổi người đang nhắn tin
-        document.querySelectorAll('.select-friend').forEach(button => {
-            button.addEventListener('click', function () {
-                const friendName = this.closest('.list-group-item').querySelector('span').innerText;
-                document.getElementById('chat-with').innerText = friendName;
-                document.getElementById('chat-box').innerHTML = '<p class="text-muted text-center">Start chatting with ' + friendName + '</p>';
-
-
-            });
-        });
-
-        // Xử lý gửi tin nhắn
-        document.getElementById('send-message').addEventListener('click', function () {
-            const chatBox = document.getElementById('chat-box');
-            const messageInput = document.getElementById('message-input');
-            if (messageInput.value.trim() !== '') {
-                // Tin nhắn gửi
-                const sentMessage = document.createElement('div');
-                sentMessage.classList.add('message', 'sent');
-                sentMessage.innerHTML = `
-                <div class="message-content">
-                    <p class="message-text">${messageInput.value}</p>
-                    <span class="message-time">15:33</span>
-                </div>
-            `;
-                chatBox.appendChild(sentMessage);
-
-                // Tin nhắn nhận giả lập (hoặc có thể thay bằng dữ liệu thật từ server)
-                const receivedMessage = document.createElement('div');
-                receivedMessage.classList.add('message', 'received');
-                receivedMessage.innerHTML = `
-                <div class="message-avatar">
-                    <img src="../public/images/profile/user-1.jpg" alt="Friend Avatar" class="rounded-circle" width="40" height="40">
-                </div>
-                <div class="message-content">
-                    <p class="message-text">Hi, how are you?</p>
-                    <span class="message-time">15:34</span>
-                </div>
-            `;
-                chatBox.appendChild(receivedMessage);
-
-                // Cuộn đến cuối chat
-                chatBox.scrollTop = chatBox.scrollHeight;
-                messageInput.value = ''; // Reset input
-            }
-        });
-    </script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="../assets/js/sidebarmenu.js"></script>
     <script src="../assets/js/app.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+    <script>
+        const socket = io();
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-message');
+        const chatBox = document.getElementById('chat-box');
+
+        document.querySelectorAll('.select-friend').forEach(button => {
+            button.addEventListener('click', async function() {
+                const friendName = this.closest('.list-group-item').querySelector('span').innerText;
+                const receiverId = this.getAttribute('data-friend-id');
+                document.getElementById('chat-with').innerText = friendName;
+                chatBox.innerHTML = '<p class="text-muted text-center">Loading chat history...</p>';
+                messageInput.setAttribute('data-receiver-id', receiverId);
+                await loadChatHistory('<%= userId %>', receiverId);
+            });
+        });
+
+        async function loadChatHistory(senderId, receiverId) {
+            const response = await fetch(`/chat/messages/${senderId}/${receiverId}`);
+            const data = await response.json();
+            chatBox.innerHTML = '';
+
+            if (data.messages.length > 0) {
+                data.messages.forEach(msg => {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message', msg.sender_id === parseInt(senderId) ? 'sent' : 'received');
+                    messageElement.innerHTML = `
+                        <div class="message-content">
+                            <p class="message-text">${msg.message}</p>
+                            <span class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</span>
+                        </div>
+                    `;
+                    chatBox.appendChild(messageElement);
+                });
+            } else {
+                chatBox.innerHTML = '<p class="text-muted text-center">No messages yet</p>';
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function updateSendButtonState() {
+            sendButton.disabled = messageInput.value.trim() === '';
+            sendButton.style.backgroundColor = messageInput.value.trim() ? '#0069d9' : '#ccc';
+        }
+
+        messageInput.addEventListener('input', updateSendButtonState);
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function createMessageElement(message, isSent) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', isSent ? 'sent' : 'received');
+
+            messageElement.innerHTML = `
+                <div class="message-content">
+                    <p class="message-text">${message}</p>
+                    <span class="message-time">${new Date().toLocaleTimeString()}</span>
+                    <button class="btn btn-link translate-btn" style="margin-left: 10px;">
+                        <i class="fas fa-language"></i> <!-- Biểu tượng dịch -->
+                    </button>
+                    <div class="translation" style="display: none; margin-top: 5px;">
+                        <p class="translation-text">Translation will appear here...</p>
+                    </div>
+                </div>
+            `;
+
+            // Thêm sự kiện cho nút dịch
+            const translateButton = messageElement.querySelector('.translate-btn');
+            translateButton.addEventListener('click', () => {
+                const translationDiv = messageElement.querySelector('.translation');
+                translationDiv.style.display = translationDiv.style.display === 'none' ? 'block' : 'none';
+            });
+
+            return messageElement;
+        }
+
+
+        // Sử dụng hàm này để tạo tin nhắn
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            const receiverId = messageInput.getAttribute('data-receiver-id');
+
+            if (message && receiverId) {
+                const sentMessage = createMessageElement(message, true);
+                chatBox.appendChild(sentMessage);
+
+                socket.emit('sendMessage', {
+                    sender_id: '<%= userId %>',
+                    receiver_id: receiverId,
+                    message: message
+                });
+
+                messageInput.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+                updateSendButtonState();
+            }
+        }
+
+
+        socket.on('receiveMessage', (data) => {
+            const receivedMessage = document.createElement('div');
+            receivedMessage.classList.add('message', 'received');
+            receivedMessage.innerHTML = `
+                <div class="message-content">
+                    <p class="message-text">${data.message}</p>
+                    <span class="message-time">${new Date(data.timestamp).toLocaleTimeString()}</span>
+                </div>
+            `;
+            chatBox.appendChild(receivedMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    </script>
 </body>
 
 </html>
