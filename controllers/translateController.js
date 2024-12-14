@@ -2,11 +2,13 @@ const axios = require('axios');
 
 // Trang dịch thuật
 exports.getTranslatePage = (req, res) => {
-    res.render('translate', { title: 'Translate' });
+    const { userId } = req.query; // Lấy userId từ query string
+    console.log(`Received userId from translateController: ${userId}`);
+    res.render('translate', { title: 'Translate', userId });
 };
 
 // API xử lý dịch văn bản
-exports.translateText = async (req, res) => {
+exports.translateText = async(req, res) => {
     const { text, source, target } = req.body;
 
     try {

@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { getTranslatePage, translateText , getVocabularyPage} = require('../controllers/translateController');
+const translateController = require('../controllers/translateController');
 
 // Route để hiển thị trang dịch (GET)
-router.get('/translate', getTranslatePage);  // Đảm bảo route này đúng cho GET
+router.get('/translate', translateController.getTranslatePage); // Đảm bảo route này đúng cho GET
 
 // Route để hiển thị trang từ vựng (GET)
-router.get('/vocabulary', getVocabularyPage);  // Đảm bảo route này đúng cho trang từ vựng
+// router.get('/vocabulary', translateController.getVocabularyPage); // Đảm bảo route này đúng cho trang từ vựng
 
 // Route API để dịch văn bản (POST)
-router.post('/translate', translateText);  // Chỉ cho POST request
+// router.post('/translate', translateController.translateText); // Chỉ cho POST request
 
 module.exports = router;

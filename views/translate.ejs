@@ -11,86 +11,90 @@
         .container {
             margin-top: 50px;
         }
+
         .translate-box {
             margin-bottom: 20px;
         }
-        .translateBtn{
+
+        .translateBtn {
             background-color: aquamarine;
         }
-        .card{
-            margin-top: 50px;  
+
+        .card {
+            margin-top: 50px;
         }
-        
     </style>
 </head>
 
 <body>
-  <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
 
-    <!-- Sidebar Start -->
-    <%- include('sidebar') %>
-    <!--  Sidebar End -->
+        <!-- Sidebar Start -->
+        <%- include('sidebar', { userId: userId }) %>
+            <!--  Sidebar End -->
 
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-      <!--  Header Start -->
-      <%- include('header') %>
-      <!--  Header End -->
-      <div class="container-fluid">
-        <div class="card">
-          <div class="card-body">
-            <h1 class="text-center">Translate</h1>
-        
-        <!-- Form nhập văn bản -->
-        <div class="row translate-box">
-            <div class="col-md-6">
-                <textarea id="inputText" class="form-control" rows="8" placeholder="Nhập văn bản cần dịch..."></textarea>
-            </div>
-            <div class="col-md-6">
-                <textarea id="outputText" class="form-control" rows="8" placeholder="Kết quả dịch sẽ hiển thị ở đây..." readonly></textarea>
-            </div>
-        </div>
+            <!--  Main wrapper -->
+            <div class="body-wrapper">
+                <!--  Header Start -->
+                <%- include('header') %>
+                    <!--  Header End -->
+                    <div class="container-fluid">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="text-center">Translate</h1>
 
-        <!-- Chọn ngôn ngữ -->
-        <div class="row">
-            <div class="col-md-6">
-                <select id="sourceLang" class="form-select">
-                    <option value="en">Tiếng Anh</option>
-                    <option value="vi">Tiếng Việt</option>
-                
-                </select>
-            </div>
-            <div class="col-md-6">
-                <select id="targetLang" class="form-select">
-                    <option value="vi">Tiếng Việt</option>
-                    <option value="en">Tiếng Anh</option>
-                
-                </select>
-            </div>
-        </div>
+                                <!-- Form nhập văn bản -->
+                                <div class="row translate-box">
+                                    <div class="col-md-6">
+                                        <textarea id="inputText" class="form-control" rows="8"
+                                            placeholder="Nhập văn bản cần dịch..."></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <textarea id="outputText" class="form-control" rows="8"
+                                            placeholder="Kết quả dịch sẽ hiển thị ở đây..." readonly></textarea>
+                                    </div>
+                                </div>
 
-        <!-- Nút dịch -->
-        <div class="row mt-3">
-            <div class="col-12">
-                <button id="translateBtn" class="btn btn-primary w-100">Dịch</button>
+                                <!-- Chọn ngôn ngữ -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <select id="sourceLang" class="form-select">
+                                            <option value="en">Tiếng Anh</option>
+                                            <option value="vi">Tiếng Việt</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select id="targetLang" class="form-select">
+                                            <option value="vi">Tiếng Việt</option>
+                                            <option value="en">Tiếng Anh</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Nút dịch -->
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <button id="translateBtn" class="btn btn-primary w-100">Dịch</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
             </div>
-        </div>
-            
-            
-          </div>
-        </div>
-        
-      </div>
     </div>
-  </div>
-  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-  <script src="../assets/js/sidebarmenu.js"></script>
-  <script src="../assets/js/app.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 
 </html>

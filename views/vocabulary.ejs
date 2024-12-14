@@ -9,159 +9,247 @@
     <link rel="stylesheet" href="../public/css/styles.min.css" />
     <style>
         .vocabulary-section {
-      margin-top: 30px;
-    }
+            margin-top: 30px;
+        }
 
-    .vocabulary-category {
-      margin-bottom: 20px;
-    }
+        .vocabulary-category {
+            margin-bottom: 20px;
+        }
 
-    .vocabulary-category h3 {
-      font-size: 1.5rem;
-      color: #333;
-      margin-bottom: 15px;
-    }
+        .vocabulary-category h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
 
-    .vocabulary-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-    }
+        .vocabulary-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
 
-    .vocabulary-item {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        .vocabulary-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .vocabulary-item h5 {
-      font-size: 1.25rem;
-      margin-bottom: 10px;
-    }
+        .vocabulary-item h5 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
 
-    .vocabulary-item p {
-      font-size: 1rem;
-      color: #666;
-    }
+        .vocabulary-item p {
+            font-size: 1rem;
+            color: #666;
+        }
 
-    .search-bar {
-      margin-bottom: 20px;
-    }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .dropdown-icon {
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-left: 10px;
+            /* Khoảng cách giữa tiêu đề và icon */
+        }
+
+        .vocabulary-item p {
+            margin: 10px 0;
+            /* Khoảng cách giữa các từ vựng */
+        }
+
+        .modal {
+            display: none;
+            /* Ẩn modal mặc định */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-dialog {
+            margin: 15% auto;
+        }
     </style>
 </head>
 
 <body>
-  <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
 
-    <!-- Sidebar Start -->
-    <%- include('sidebar') %>
-    <!-- Sidebar End -->
+        <!-- Sidebar Start -->
+        <%- include('sidebar'), { userId: userId } %>
+            <!-- Sidebar End -->
+            <!-- Main wrapper -->
+            <div class="body-wrapper">
+                <!-- Header Start -->
+                <%- include('header') %>
+                    <!-- Header End -->
 
-    <!-- Main wrapper -->
-    <div class="body-wrapper">
-      <!-- Header Start -->
-      <%- include('header') %>
-      <!-- Header End -->
+                    <div class="container-fluid">
+                        <h1 class="mt-4">English Vocabulary</h1>
+                        <p>This page contains various categories of English vocabulary for you to learn.</p>
 
-      <!-- Main content goes here -->
-      <div class="container-fluid">
-        <h1 class="mt-4">English Vocabulary</h1>
-        <p>This page contains various categories of English vocabulary for you to learn.</p>
+                        <!-- Search Bar -->
+                        <div class="search-bar">
+                            <input type="text" class="form-control" id="search-input"
+                                placeholder="Search vocabulary...">
+                        </div>
+                        <button class="btn btn-primary" onclick="showAddVocabularyModal()">Thêm Từ Mới</button>
 
-        <!-- Search Bar -->
-        <div class="search-bar">
-          <input type="text" class="form-control" id="search-input" placeholder="Search vocabulary...">
-        </div>
+                        <!-- Vocabulary Sections -->
+                        <div class="vocabulary-section">
+                            <% topics.forEach(topic=> { %>
+                                <div class="vocabulary-category">
+                                    <h3>
+                                        <a href="#" class="topic-title"
+                                            onclick="toggleVocabulary('<%= topic.id %>'); return false;">
+                                            <%= topic.title %>
+                                        </a>
+                                        <span class="dropdown-icon"
+                                            onclick="toggleVocabulary('<%= topic.id %>'); return false;">
+                                            &#9662; <!-- Biểu tượng dropdown (mũi tên xuống) -->
+                                        </span>
+                                    </h3>
+                                    <!-- Tiêu đề topic -->
 
-        <!-- Vocabulary Sections -->
-        <div class="vocabulary-section">
-          <!-- Category 1: Everyday Words -->
-          <div class="vocabulary-category">
-            <h3>Everyday Words</h3>
-            <div class="vocabulary-list">
-              <div class="vocabulary-item">
-                <h5>Book</h5>
-                <p>A set of written, printed, or blank pages fastened together.</p>
-              </div>
-              <div class="vocabulary-item">
-                <h5>Table</h5>
-                <p>A piece of furniture with a flat surface.</p>
-              </div>
-              <div class="vocabulary-item">
-                <h5>Computer</h5>
-                <p>An electronic device for storing and processing data.</p>
-              </div>
+                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list"
+                                        style="display: none;">
+                                        <% if (topic.vocabularies.length> 0) { %>
+                                            <% topic.vocabularies.forEach(vocabulary=> { %>
+                                                <div class="vocabulary-item">
+                                                    <p>
+                                                        <strong>
+                                                            <%= vocabulary.english_word %>
+                                                        </strong> :
+                                                        <%= vocabulary.vietnamese_meaning %>
+                                                    </p>
+                                                    <!-- Hiển thị ngang hàng -->
+                                                </div>
+                                                <% }); %>
+                                                    <% } else { %>
+                                                        <p>Topic này chưa có từ mới nào.</p>
+                                                        <% } %>
+                                    </div>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+                    <!-- Modal cho thêm từ mới -->
+                    <div id="addVocabularyModal" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Thêm Từ Mới</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addVocabularyForm">
+                                        <div class="form-group">
+                                            <label for="englishWord">Từ Tiếng Anh</label>
+                                            <input type="text" class="form-control" id="englishWord" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="vietnameseMeaning">Nghĩa Tiếng Việt</label>
+                                            <input type="text" class="form-control" id="vietnameseMeaning" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="topicSelect">Chọn Topic</label>
+                                            <select class="form-control" id="topicSelect">
+                                                <% topics.forEach(topic=> { %>
+                                                    <option value="<%= topic.id %>">
+                                                        <%= topic.title %>
+                                                    </option>
+                                                    <% }); %>
+                                                        <option value="new">Thêm Topic Mới</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="newTopicGroup" style="display: none;">
+                                            <label for="newTopic">Tên Topic Mới</label>
+                                            <input type="text" class="form-control" id="newTopic">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Thêm</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thêm Modal cho Sửa Từ -->
+                    <div id="editVocabularyModal" class="modal" tabindex="-1" role="dialog">
+                        <!-- Nội dung modal sẽ được cập nhật qua JavaScript -->
+                    </div>
             </div>
-          </div>
 
-          <!-- Category 2: Travel -->
-          <div class="vocabulary-category">
-            <h3>Travel</h3>
-            <div class="vocabulary-list">
-              <div class="vocabulary-item">
-                <h5>Flight</h5>
-                <p>The act of flying or an aircraft journey.</p>
-              </div>
-              <div class="vocabulary-item">
-                <h5>Hotel</h5>
-                <p>A place where travelers can stay overnight.</p>
-              </div>
-              <div class="vocabulary-item">
-                <h5>Luggage</h5>
-                <p>Suitcases or other bags in which clothing and other personal items are packed for traveling.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Category 3: Food -->
-          <div class="vocabulary-category">
-            <h3>Food</h3>
-            <div class="vocabulary-list">
-              <div class="vocabulary-item">
-                <h5>Apple</h5>
-                <p>A round fruit with red or green skin and a whitish interior.</p>
-              </div>
-              <div class="vocabulary-item">
-                <h5>Pizza</h5>
-                <p>An Italian dish consisting of a usually round, flat base of dough topped with various ingredients.</p>
-              </div>
-              <div class="vocabulary-item">
-                <h5>Banana</h5>
-                <p>A long, curved fruit with a yellow skin.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-  <!-- Optional: Add JavaScript for search functionality -->
-  <script>
-    document.getElementById('search-input').addEventListener('input', function () {
-      const searchValue = this.value.toLowerCase();
-      const items = document.querySelectorAll('.vocabulary-item');
-
-      items.forEach(item => {
-        const title = item.querySelector('h5').textContent.toLowerCase();
-        const description = item.querySelector('p').textContent.toLowerCase();
-        
-        if (title.includes(searchValue) || description.includes(searchValue)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
+    </div>
+    </div>
+    <!-- Optional: Add JavaScript for search functionality -->
+    <script>
+        function showAddVocabularyModal() {
+            document.getElementById('addVocabularyModal').style.display = 'block';
         }
-      });
-    });
-  </script>
-  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-  <script src="../assets/js/sidebarmenu.js"></script>
-  <script src="../assets/js/app.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+        function showEditVocabularyModal(vocabularyId) {
+            // Lấy thông tin từ vựng và cập nhật modal
+            // Sau đó hiển thị modal
+        }
+
+        function deleteVocabulary(vocabularyId) {
+            // Xóa từ vựng qua API hoặc request
+        }
+
+        document.getElementById('topicSelect').addEventListener('change', function () {
+            const newTopicGroup = document.getElementById('newTopicGroup');
+            if (this.value === 'new') {
+                newTopicGroup.style.display = 'block';
+            } else {
+                newTopicGroup.style.display = 'none';
+            }
+        });
+    </script>
+
+    <script>
+        function toggleVocabulary(topicId) {
+            const vocabList = document.getElementById(`vocabularies-${topicId}`);
+            if (vocabList.style.display === "none") {
+                vocabList.style.display = "block";
+            } else {
+                vocabList.style.display = "none";
+            }
+        }
+    </script>
+
+    <script>
+        document.getElementById('search-input').addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase();
+            const items = document.querySelectorAll('.vocabulary-item');
+
+            items.forEach(item => {
+                const title = item.querySelector('h5').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(searchValue) || description.includes(searchValue)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

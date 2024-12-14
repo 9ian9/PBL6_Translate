@@ -1,16 +1,17 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
-exports.login = async(req, res) => {
+const Topic = require('../models/Topic'); // Đường dẫn tới mô hình Topic
+
+exports.loginPage = async(req, res) => {
     const { username, password } = req.body;
-    
+
     try {
         const user = await User.findOne({ where: { username } });
         if (user) {
-            // So sánh trực tiếp mật khẩu nhập vào với mật khẩu trong cơ sở dữ liệu
             if (password === user.password) {
-                res.render('home', { title: 'Home', username: user.username });
-                //res.send('Login successful');
+                // Redirect đến trang chính với userId
+                return res.redirect(`/home?userId=${user.id}`);
             } else {
                 res.send('Invalid username or password');
             }
@@ -18,16 +19,25 @@ exports.login = async(req, res) => {
             res.send('User not found');
         }
     } catch (error) {
-        console.log(error); // In ra lỗi để kiểm tra
+        console.log(error);
         res.status(500).send('Server error');
     }
 };
-
+exports.getHomePageAndTopics = async(req, res) => {
+    const userId = req.query.userId; // Lấy userId từ query string
+    try {
+        const topics = await Topic.findAll({ where: { user_id: userId } });
+        res.render('home', { title: 'Home', userId, topics });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server error');
+    }
+};
 exports.getLoginPage = (req, res) => {
     res.render('login', { title: 'Login' });
 };
 
-exports.register = async (req, res) => {
+exports.register = async(req, res) => {
     const { email, username, password, confirmPassword } = req.body;
 
     // Kiểm tra các trường không được để trống
@@ -59,8 +69,7 @@ exports.register = async (req, res) => {
 
         // Lưu người dùng mới vào cơ sở dữ liệu
         await connection.promise().query(
-            'INSERT INTO users (email, username, password) VALUES (?, ?, ?)',
-            [email, username, hashedPassword]
+            'INSERT INTO users (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]
         );
 
         // Trả về phản hồi thành công
@@ -73,4 +82,3 @@ exports.register = async (req, res) => {
 exports.getRegisterPage = (req, res) => {
     res.render('register', { title: 'Đăng ký tài khoản' });
 };
-

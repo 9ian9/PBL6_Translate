@@ -1,5 +1,6 @@
 exports.getCallPage = (req, res) => {
-    res.render('video', { title: 'Video Call' });
+    const { userId } = req.query; // Lấy userId từ query string
+    res.render('video', { title: 'Video Call', userId });
 };
 
 exports.startCall = (req, res) => {
@@ -9,7 +10,7 @@ exports.startCall = (req, res) => {
 
 // Hàm hiển thị trang video.ejs
 exports.getVideoPage = (req, res) => {
+    const { userId } = req.query;
     // Trả về trang video.ejs
-    res.render('video');
+    res.render('video', { title: 'Video Call', userId });
 };
-

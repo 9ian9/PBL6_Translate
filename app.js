@@ -9,6 +9,7 @@ const videoRoutes = require('./routes/videoRouter');
 const translateRouter = require('./routes/translateRouter');
 const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
+const topicRouter = require('./routes/topicRouter');
 
 const app = express();
 const server = http.Server(app);
@@ -26,9 +27,6 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// Cấu hình favicon
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
 // Cấu hình view engine là EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -37,11 +35,11 @@ app.set('views', path.join(__dirname, 'views'));
 // Định nghĩa các route
 app.use('/auth', authRoutes);
 app.use('/video', videoRoutes);
-app.use('/translate', translateRouter);
-app.use('/flashcards', flashcardRouter);
+app.use('/', translateRouter);
+app.use('/', flashcardRouter);
 app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
-
+app.use('/', topicRouter);
 
 // Route cho trang chủ để render login.ejs
 app.get('/', (req, res) => {
@@ -51,31 +49,34 @@ app.get('/', (req, res) => {
 app.get('/', (req, res) => {
     res.render('register', { title: 'Register' });
 });
+
 // Định nghĩa route để hiển thị video.ejs
 app.get('/video', (req, res) => {
-    res.render('video');  // Đảm bảo rằng video.ejs có trong thư mục views
+    res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
 app.get('/chat', (req, res) => {
-    res.render('chat');  // Đảm bảo rằng video.ejs có trong thư mục views
+    res.render('chat'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
 
 // Route cho trang translate
-app.get('/translate', (req, res) => {
-    res.render('translate', { title: 'Translate' });
-});
+// app.get('/translate', (req, res) => {
+//     res.render('translate', { title: 'Translate' });
+// });
 
 // Route cho trang vocabulary
-app.get('/vocabulary', (req, res) => {
-    res.render('vocabulary', { title: 'Vocabulary' });
-});
-app.get('/flashcard', (req, res) => {
-    res.render('flashcard', { title: 'Flashcard' });
-});
-app.get('/profile', (req, res)=> {
+// app.get('/vocabulary', (req, res) => {
+//     res.render('vocabulary', { title: 'Vocabulary' });
+// });
+// app.get('/flashcard', (req, res) => {
+//     res.render('listTopic', { title: 'Flashcard' });
+// });
+app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
 });
-
-
+app.use((req, res, next) => {
+    console.log(`Request URL: ${req.url}`);
+    next();
+});
 
 
 // Cấu hình WebSocket

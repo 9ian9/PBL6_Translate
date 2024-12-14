@@ -5,32 +5,24 @@ const sequelize = new Sequelize('mysql://root@localhost:3306/pbl6', {
 });
 
 sequelize.authenticate()
-    .then(() => console.log('Database connected...'))
+    .then(() => console.log('Database connected from topic...'))
     .catch(err => console.log('Error: ' + err));
 
-const User = sequelize.define('User', {
+const Topic = sequelize.define('Topic', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
         unique: true
     },
-    email: {
+    title: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    },
-    username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false
     }
 }, {
-    timestamps: false // Tắt tính năng tự động thêm createdAt và updatedAt
+    tableName: 'topic', // Đảm bảo tên bảng là 'topic'
+    timestamps: false
 });
 
-module.exports = User;
+module.exports = Topic;
