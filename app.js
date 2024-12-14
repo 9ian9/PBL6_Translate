@@ -34,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Định nghĩa các route
 app.use('/auth', authRoutes);
-app.use('/video', videoRoutes);
+app.use('/', videoRoutes);
 app.use('/', translateRouter);
 app.use('/', flashcardRouter);
 app.use('/chat', videoRoutes);
@@ -51,9 +51,9 @@ app.get('/', (req, res) => {
 });
 
 // Định nghĩa route để hiển thị video.ejs
-app.get('/video', (req, res) => {
-    res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
-});
+// app.get('/video', (req, res) => {
+//     res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
+// });
 app.get('/chat', (req, res) => {
     res.render('chat'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
