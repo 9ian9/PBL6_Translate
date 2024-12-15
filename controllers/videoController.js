@@ -12,5 +12,5 @@ exports.startCall = (req, res) => {
 exports.getVideoPage = (req, res) => {
     const { userId } = req.query;
     // Trả về trang video.ejs
-    res.render('video', { title: 'Video Call', userId });
+    res.render('message', { title: 'Video Call', userId });
 };
