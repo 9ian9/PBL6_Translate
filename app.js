@@ -58,18 +58,6 @@ app.get('/chat', (req, res) => {
     res.render('chat'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
 
-// Route cho trang translate
-// app.get('/translate', (req, res) => {
-//     res.render('translate', { title: 'Translate' });
-// });
-
-// Route cho trang vocabulary
-// app.get('/vocabulary', (req, res) => {
-//     res.render('vocabulary', { title: 'Vocabulary' });
-// });
-// app.get('/flashcard', (req, res) => {
-//     res.render('listTopic', { title: 'Flashcard' });
-// });
 app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
 });
