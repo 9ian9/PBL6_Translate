@@ -54,10 +54,6 @@ app.get('/', (req, res) => {
     res.render('register', { title: 'Register' });
 });
 
-// Định nghĩa route để hiển thị video.ejs
-// app.get('/video', (req, res) => {
-//     res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
-// });
 app.get('/callVideo', (req, res) => {
     res.render('callVideo');
     // res.redirect('/callVideo');
