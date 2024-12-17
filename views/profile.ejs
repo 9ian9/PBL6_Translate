@@ -10,7 +10,7 @@
     <style>
         /* Tổng quát */
         body {
-            font-family: Arial, sans-serif;
+            
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
@@ -39,7 +39,7 @@
 
         .card-header-primary p {
             margin: 5px 0 0;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: lighter;
         }
 
@@ -53,7 +53,7 @@
         }
 
         form label {
-            font-size: 14px;
+            font-size: 15px;
             color: #555;
             font-weight: bold;
         }
@@ -65,7 +65,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 15px;
             transition: all 0.3s ease-in-out;
         }
 
@@ -137,7 +137,7 @@
             border-radius: 5px;
             padding: 8px 15px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
             display: inline-block;
             transition: all 0.3s ease-in-out;
         }
@@ -253,18 +253,19 @@
                                 <p class="card-category">Complete your profile</p>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form action="/profile/update" method="POST">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Username</label>
-                                                <input type="text" class="form-control" value="{{ current_user.username }}">
+                                                <input type="text" class="form-control" value="<%= user.username %>" readonly>
                                             </div>
+                                            
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Email address</label>
-                                                <input type="email" class="form-control" value="{{ current_user.email }}">
+                                                <input type="email" class="form-control" value="<%= user.email %>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -272,13 +273,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">First Name</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" id="first_name" name="first_name" value="<%= user.first_name %>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Last Name</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" id="last_name" name="last_name" value="<%= user.last_name %>">
                                             </div>
                                         </div>
                                     </div>
@@ -310,7 +311,7 @@
                                 <h6 class="card-category text-gray">
                                 </h6>
                                 <h4 class="card-title">
-                                    {{ current_user.email }}
+                                    <%= user.username %>
                                 </h4>
                                 <p class="card-description">
                                     Don't be scared of the truth because we need to restart the human foundation in truth. And I love you like Kanye loves Kanye. I love Rick Owens’ bed design but the back is...
@@ -328,18 +329,18 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h4>Change Password</h4>
-                <form id="change-password-form">
+                <form action="/profile/changePassword"  method="POST">
                     <div class="form-group">
                         <label for="current-password">Current Password</label>
-                        <input type="password" class="form-control" id="current-password" placeholder="Current password">
+                        <input type="password" class="form-control" id="currentPass" name="currentPass" placeholder="Current password">
                     </div>
                     <div class="form-group">
                         <label for="new-password">New Password</label>
-                        <input type="password" class="form-control" id="new-password" placeholder="New password">
+                        <input type="password" class="form-control" id="newPass" name="newPass" placeholder="New password">
                     </div>
                     <div class="form-group">
                         <label for="confirm-password">Confirm New Password</label>
-                        <input type="password" class="form-control" id="confirm-password" placeholder="Confirm new password">
+                        <input type="password" class="form-control" id="confirmPass" name="confirmPass" placeholder="Confirm new password">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Password</button>
                 </form>

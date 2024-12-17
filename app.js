@@ -1,4 +1,8 @@
 const express = require('express');
+const app = express();
+
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
@@ -10,8 +14,18 @@ const videoRoutes = require('./routes/videoRouter');
 const translateRouter = require('./routes/translateRouter');
 const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
+const profileController = require('./controllers/profileController');
 
-const app = express();
+const session = require('express-session');
+app.use(session({
+    secret: process.env.SECRET_KEY, // Lấy secret_key từ biến môi trường
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+
+
 //const server = http.Server(app);
 //const io = socketIO(server);
 const server = http.createServer(app);
@@ -54,6 +68,9 @@ app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
 app.use('/room', videoRoutes);
 
+app.get('/profile', profileController.getProfilePage);
+app.post('/profile/update', profileController.updateProfile);
+app.post('/profile/changePassword',profileController.changePassword);
 
 
 // Route cho trang chủ để render login.ejs
@@ -87,9 +104,7 @@ app.get('/vocabulary', (req, res) => {
 app.get('/flashcard', (req, res) => {
     res.render('flashcard', { title: 'Flashcard' });
 });
-app.get('/profile', (req, res) => {
-    res.render('profile', { title: 'Profile' });
-});
+
 
 
 

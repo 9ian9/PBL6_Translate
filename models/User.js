@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mysql://root@localhost:3306/speed_to_text', {
+const sequelize = new Sequelize('mysql://root@localhost:3306/pbl6', {
     dialect: 'mysql',
     logging: console.log
 });
@@ -13,7 +13,8 @@ const User = sequelize.define('User', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        unique: true
+        unique: true,
+        autoIncrement: true
     },
     email: {
         type: DataTypes.STRING,
@@ -28,6 +29,14 @@ const User = sequelize.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    last_name: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     timestamps: false // Tắt tính năng tự động thêm createdAt và updatedAt
