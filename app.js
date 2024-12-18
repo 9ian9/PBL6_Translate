@@ -15,10 +15,10 @@ const socket = require('./controllers/socketController');
 const app = express();
 const server = http.Server(app);
 const io = socketIO(server);
+const session = require('express-session');
+require('dotenv').config();
 
 app.use(authRoutes);
-
-
 
 // Middleware để parse body của request
 app.use(express.urlencoded({ extended: true }));
@@ -28,8 +28,12 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/public/dist', express.static(path.join(__dirname, 'public', 'dist')));
-// app.use(express.static(path.join(__dirname, 'public', 'dist')));
-
+app.use(session({
+    secret: process.env.SESSION_SECRET, // Sử dụng chuỗi bí mật từ .env
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } //session hết hạn sau 24h
+}));
 
 // Cấu hình view engine là EJS
 app.set('view engine', 'ejs');
