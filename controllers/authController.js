@@ -10,8 +10,13 @@ exports.loginPage = async(req, res) => {
         const user = await User.findOne({ where: { username } });
         if (user) {
             if (password === user.password) {
+                req.session.user = {
+                    username: user.username,
+                    id: user.id,
+                };
+                console.log('Session after login:', req.session.user);
                 // Redirect đến trang chính với userId
-                return res.redirect(`/home?userId=${user.id}`);
+                return res.redirect(`home`);
             } else {
                 res.send('Invalid username or password');
             }
@@ -24,10 +29,15 @@ exports.loginPage = async(req, res) => {
     }
 };
 exports.getHomePageAndTopics = async(req, res) => {
-    const userId = req.query.userId; // Lấy userId từ query string
     try {
+        const userId = req.session.user.id; // Lấy userId từ session
         const topics = await Topic.findAll({ where: { user_id: userId } });
-        res.render('home', { title: 'Home', userId, topics });
+        res.render('home', {
+            title: 'Home',
+            username: req.session.username, // Truyền thêm username để hiển thị
+            userId,
+            topics
+        });
     } catch (error) {
         console.log(error);
         res.status(500).send('Server error');
@@ -81,4 +91,15 @@ exports.register = async(req, res) => {
 };
 exports.getRegisterPage = (req, res) => {
     res.render('register', { title: 'Đăng ký tài khoản' });
+};
+
+//logout và destroy session
+exports.logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Unable to log out');
+        }
+        res.redirect('/login'); // Chuyển hướng về trang login sau khi đăng xuất
+    });
 };

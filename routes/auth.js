@@ -13,21 +13,8 @@ router.post('/login', authController.loginPage);
 // Route cho trang login
 router.get('/login', authController.getLoginPage);
 
-// router.get('/home', async(req, res) => {
-//     const userId = req.query.userId; // Lấy userId từ query string
-//     try {
-//         const topics = await Topic.findAll({ where: { user_id: userId } });
-//         res.render('home', { title: 'Home', userId, topics });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send('Server error');
-//     }
-// });
 router.get('/home', authController.getHomePageAndTopics)
-router.get('/logout', (req, res) => {
-    // Xử lý logout, ví dụ như xóa session hoặc token
-    res.redirect('/');
-});
+router.get('/logout', authController.logout);
 // Route GET để hiển thị trang đăng ký
 router.get('/register', authController.getRegisterPage);
 
