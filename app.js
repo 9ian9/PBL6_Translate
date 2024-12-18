@@ -72,7 +72,11 @@ app.use((req, res, next) => {
 // Cấu hình WebSocket
 io.on('connection', (socket) => {
     console.log('A user connected');
-
+    const userId = socket.handshake.query.userId; // Lấy userId từ query khi kết nối
+    if (userId) {
+        socket.join(userId); // Tham gia phòng dựa trên userId
+        console.log(`User ${userId} joined room`);
+    }
     socket.on('sendMessage', async(data) => {
         try {
             // Lưu tin nhắn vào cơ sở dữ liệu
@@ -88,6 +92,7 @@ io.on('connection', (socket) => {
 
             // Gửi tin nhắn đến tất cả các client
             io.to(data.receiver_id).emit('receiveMessage', savedMessage);
+            socket.emit('sendMessage', savedMessage);
         } catch (error) {
             console.error('Error sending message:', error);
         }
