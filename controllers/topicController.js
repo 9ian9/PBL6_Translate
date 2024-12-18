@@ -17,3 +17,13 @@ exports.getFlashcardPage = async(req, res) => {
         res.status(500).send('Server error');
     }
 };
+exports.setSelectedTopic = (req, res) => {
+    const { topicId } = req.body; // Lấy topicId từ request
+    console.log(`Received topicId: ${topicId}`); // In ra topicId để kiểm tra
+    if (!topicId) {
+        return res.status(400).send('Topic ID is required'); // Kiểm tra nếu topicId không tồn tại
+    }
+
+    req.session.selectedTopicId = topicId; // Lưu topicId vào session
+    res.status(200).send('Topic selected');
+};
