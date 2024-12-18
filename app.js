@@ -10,6 +10,7 @@ const translateRouter = require('./routes/translateRouter');
 const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
 const topicRouter = require('./routes/topicRouter');
+const chatRoutes = require('./routes/chat');
 
 const app = express();
 const server = http.Server(app);
@@ -37,9 +38,11 @@ app.use('/auth', authRoutes);
 app.use('/', videoRoutes);
 app.use('/', translateRouter);
 app.use('/', flashcardRouter);
-app.use('/chat', videoRoutes);
+// app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
 app.use('/', topicRouter);
+app.use('/', chatRoutes);
+
 
 // Route cho trang chủ để render login.ejs
 app.get('/', (req, res) => {
@@ -50,26 +53,11 @@ app.get('/', (req, res) => {
     res.render('register', { title: 'Register' });
 });
 
-// Định nghĩa route để hiển thị video.ejs
-// app.get('/video', (req, res) => {
-//     res.render('video'); // Đảm bảo rằng video.ejs có trong thư mục views
-// });
 app.get('/chat', (req, res) => {
     res.render('chat'); // Đảm bảo rằng video.ejs có trong thư mục views
 });
 
-// Route cho trang translate
-// app.get('/translate', (req, res) => {
-//     res.render('translate', { title: 'Translate' });
-// });
 
-// Route cho trang vocabulary
-// app.get('/vocabulary', (req, res) => {
-//     res.render('vocabulary', { title: 'Vocabulary' });
-// });
-// app.get('/flashcard', (req, res) => {
-//     res.render('listTopic', { title: 'Flashcard' });
-// });
 app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
 });
@@ -80,7 +68,40 @@ app.use((req, res, next) => {
 
 
 // Cấu hình WebSocket
-io.of('/stream').on('connection', stream);
+// io.of('/stream').on('connection', stream);
+// Cấu hình WebSocket
+io.on('connection', (socket) => {
+    console.log('A user connected');
+    const userId = socket.handshake.query.userId; // Lấy userId từ query khi kết nối
+    if (userId) {
+        socket.join(userId); // Tham gia phòng dựa trên userId
+        console.log(`User ${userId} joined room`);
+    }
+    socket.on('sendMessage', async(data) => {
+        try {
+            // Lưu tin nhắn vào cơ sở dữ liệu
+            const response = await fetch('http://localhost:3000/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const savedMessage = await response.json();
+
+            // Gửi tin nhắn đến tất cả các client
+            io.to(data.receiver_id).emit('receiveMessage', savedMessage);
+            socket.emit('sendMessage', savedMessage);
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
 
 
 // Khởi động server
