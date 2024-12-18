@@ -10,6 +10,8 @@ const translateRouter = require('./routes/translateRouter');
 const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
 const topicRouter = require('./routes/topicRouter');
+const chatRoutes = require('./routes/chat');
+
 const socket = require('./controllers/socketController');
 
 const app = express();
@@ -50,7 +52,7 @@ app.use('/', flashcardRouter);
 // app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
 app.use('/', topicRouter);
-// app.use('/', chatRoutes);
+app.use('/', chatRoutes);
 
 
 // Route cho trang chủ để render login.ejs
@@ -76,43 +78,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-// Cấu hình WebSocket
-// io.of('/stream').on('connection', stream);
-// Cấu hình WebSocket
-io.on('connection', (socket) => {
-    console.log('A user connected');
-    const userId = socket.handshake.query.userId; // Lấy userId từ query khi kết nối
-    if (userId) {
-        socket.join(userId); // Tham gia phòng dựa trên userId
-        console.log(`User ${userId} joined room`);
-    }
-    socket.on('sendMessage', async(data) => {
-        try {
-            // Lưu tin nhắn vào cơ sở dữ liệu
-            const response = await fetch('http://localhost:3000/chat/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            const savedMessage = await response.json();
-
-            // Gửi tin nhắn đến tất cả các client
-            io.to(data.receiver_id).emit('receiveMessage', savedMessage);
-            socket.emit('sendMessage', savedMessage);
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
-// io.of('/stream').on('connection', stream);
 // Cấu hình WebSocket
 io.on('connection', (socket) => {
     console.log('A user connected');
