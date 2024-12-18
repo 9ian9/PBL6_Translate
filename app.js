@@ -20,6 +20,8 @@ require('dotenv').config();
 
 app.use(authRoutes);
 
+
+
 // Middleware để parse body của request
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -45,9 +47,11 @@ app.use('/auth', authRoutes);
 app.use('/', videoRoutes);
 app.use('/', translateRouter);
 app.use('/', flashcardRouter);
-app.use('/chat', videoRoutes);
+// app.use('/chat', videoRoutes);
 app.use('/profile', profileRouter);
 app.use('/', topicRouter);
+// app.use('/', chatRoutes);
+
 
 // Route cho trang chủ để render login.ejs
 app.get('/', (req, res) => {
@@ -62,6 +66,8 @@ app.get('/callVideo', (req, res) => {
     res.render('callVideo');
     // res.redirect('/callVideo');
 });
+
+
 app.get('/profile', (req, res) => {
     res.render('profile', { title: 'Profile' });
 });
@@ -72,7 +78,40 @@ app.use((req, res, next) => {
 
 
 // Cấu hình WebSocket
-io.of('/stream').on('connection', stream);
+// io.of('/stream').on('connection', stream);
+// Cấu hình WebSocket
+io.on('connection', (socket) => {
+    console.log('A user connected');
+    const userId = socket.handshake.query.userId; // Lấy userId từ query khi kết nối
+    if (userId) {
+        socket.join(userId); // Tham gia phòng dựa trên userId
+        console.log(`User ${userId} joined room`);
+    }
+    socket.on('sendMessage', async(data) => {
+        try {
+            // Lưu tin nhắn vào cơ sở dữ liệu
+            const response = await fetch('http://localhost:3000/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const savedMessage = await response.json();
+
+            // Gửi tin nhắn đến tất cả các client
+            io.to(data.receiver_id).emit('receiveMessage', savedMessage);
+            socket.emit('sendMessage', savedMessage);
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
 
 
 // Khởi động server
