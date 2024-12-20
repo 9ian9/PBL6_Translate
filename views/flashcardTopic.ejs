@@ -4,7 +4,9 @@
         <h3>Featured Flashcards</h3>
         <div class="row">
             <% if (topics.length===0) { %>
-                <p>No topics available.</p>
+                <p>
+                    <%= __('no_topic') %>
+                </p>
                 <% } else { %>
                     <% topics.forEach(topic=> { %>
                         <div class="col-lg-3 mb-3">

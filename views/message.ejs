@@ -18,30 +18,42 @@
                     <div class="container-fluid">
                         <div class="row mt-4">
                             <div class="col-md-4 col-sm-12 border-end" style="max-height: 80vh; overflow-y: auto;">
-                                <h5 class="text-center">Friends List</h5>
+                                <h5 class="text-center">
+                                    <%= __('friends_list_title') %>
+                                </h5>
                                 <ul class="list-group">
                                     <% users.forEach(user=> { %>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <span>
                                                 <%= user.username %>
                                             </span>
-                                            <button class="btn btn-sm btn-primary select-friend" data-friend-id="<%= user.id %>">Chat</button>
+                                            <button class="btn btn-sm btn-primary select-friend" data-friend-id="<%= user.id %>">
+                                                <%= __('chat_with_title') %>
+                                            </button>
                                         </li>
                                         <% }); %>
                                 </ul>
                             </div>
                             <div class="col-md-8 col-sm-12">
-                                <h5 class="text-center">Chat with: <span id="chat-with">Select a friend</span></h5>
+                                <h5 class="text-center">
+                                    <%= __('chat_with_title') %><span id="chat-with">
+                                            <%= __('select_friend_placeholder') %>
+                                        </span>
+                                </h5>
                                 <div class="chat-box border p-3 mb-2" style="height: 60vh; overflow-y: auto;" id="chat-box">
-                                    <p class="text-muted text-center">Select a friend to start chatting!</p>
+                                    <p class="text-muted text-center">
+                                        <%= __('chat_start_message') %>!
+                                    </p>
                                 </div>
                                 <div class="d-flex">
-                                    <input type="text" id="message-input" class="form-control me-2" placeholder="Type your message..." />
+                                    <input type="text" id="message-input" class="form-control me-2" placeholder="<%= __('message_input_placeholder') %>" />
                                     <button id="microphone-button" class="btn btn-secondary me-2">
                                         <i class="fas fa-microphone"></i>
                                     </button>
                                     <!-- Hiển thị kết quả nhận diện -->
-                                    <button id="send-message" class="btn" style="background-color: #0069d9; border-color: #0062cc;" disabled>Send</button>
+                                    <button id="send-message" class="btn" style="background-color: #0069d9; border-color: #0062cc;" disabled>
+                                        <%= __('send_message_button') %>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -80,23 +92,23 @@
         });
 
         async function loadChatHistory(senderId, receiverId) {
-        const response = await fetch(`/chat/messages/${senderId}/${receiverId}`);
-        const data = await response.json();
-        chatBox.innerHTML = '';
+            const response = await fetch(`/chat/messages/${senderId}/${receiverId}`);
+            const data = await response.json();
+            chatBox.innerHTML = '';
 
-        if (data.messages.length > 0) {
-            data.messages.forEach(msg => {
-                const messageElement = createMessageElement(msg.message, msg.sender_id === parseInt(senderId));
-                chatBox.appendChild(messageElement);
-            });
-        } else {
-            chatBox.innerHTML = '<p class="text-muted text-center">No messages yet</p>';
+            if (data.messages.length > 0) {
+                data.messages.forEach(msg => {
+                    const messageElement = createMessageElement(msg.message, msg.sender_id === parseInt(senderId));
+                    chatBox.appendChild(messageElement);
+                });
+            } else {
+                chatBox.innerHTML = '<p class="text-muted text-center">No messages yet</p>';
+            }
+
+            // Gọi hàm thêm nút dịch vào tất cả các tin nhắn (gửi và nhận)
+            addTranslateButton();
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
-
-        // Gọi hàm thêm nút dịch vào tất cả các tin nhắn (gửi và nhận)
-        addTranslateButton();
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
 
 
         function updateSendButtonState() {
@@ -112,58 +124,58 @@
             }
         });
         document.addEventListener('DOMContentLoaded', () => {
-    // Gọi hàm addTranslateButton khi DOM đã tải xong để thêm nút dịch vào tất cả tin nhắn hiện có
-    addTranslateButton();
-});
+            // Gọi hàm addTranslateButton khi DOM đã tải xong để thêm nút dịch vào tất cả tin nhắn hiện có
+            addTranslateButton();
+        });
 
         function addTranslateButton() {
-        // Chọn tất cả các tin nhắn
-        const messageElements = document.querySelectorAll('.message .message-content');
+            // Chọn tất cả các tin nhắn
+            const messageElements = document.querySelectorAll('.message .message-content');
 
-        messageElements.forEach(messageElement => {
-            // Kiểm tra nếu nút dịch chưa tồn tại
-            if (!messageElement.querySelector('.translate-btn')) {
-                // Tạo nút dịch
-                const translateButton = document.createElement('button');
-                translateButton.classList.add('btn', 'btn-link', 'translate-btn');
-                translateButton.style.marginLeft = '10px';
-                translateButton.innerHTML = '<i class="fas fa-language"></i>';  // Biểu tượng dịch
+            messageElements.forEach(messageElement => {
+                // Kiểm tra nếu nút dịch chưa tồn tại
+                if (!messageElement.querySelector('.translate-btn')) {
+                    // Tạo nút dịch
+                    const translateButton = document.createElement('button');
+                    translateButton.classList.add('btn', 'btn-link', 'translate-btn');
+                    translateButton.style.marginLeft = '10px';
+                    translateButton.innerHTML = '<i class="fas fa-language"></i>'; // Biểu tượng dịch
 
-                // Tạo phần tử dịch
-                const translationDiv = document.createElement('div');
-                translationDiv.classList.add('translation');
-                translationDiv.style.display = 'none';
-                translationDiv.innerHTML = '<p class="translation-text">Translation will appear here...</p>';
+                    // Tạo phần tử dịch
+                    const translationDiv = document.createElement('div');
+                    translationDiv.classList.add('translation');
+                    translationDiv.style.display = 'none';
+                    translationDiv.innerHTML = '<p class="translation-text">Translation will appear here...</p>';
 
-                // Thêm nút dịch và phần tử dịch vào tin nhắn
-                messageElement.appendChild(translateButton);
-                messageElement.appendChild(translationDiv);
+                    // Thêm nút dịch và phần tử dịch vào tin nhắn
+                    messageElement.appendChild(translateButton);
+                    messageElement.appendChild(translationDiv);
 
-                // Thêm sự kiện cho nút dịch
-                translateButton.addEventListener('click', () => {
-                    const translationDiv = messageElement.querySelector('.translation');
-                    translationDiv.style.display = translationDiv.style.display === 'none' ? 'block' : 'none';
-                });
-            }
-        });
+                    // Thêm sự kiện cho nút dịch
+                    translateButton.addEventListener('click', () => {
+                        const translationDiv = messageElement.querySelector('.translation');
+                        translationDiv.style.display = translationDiv.style.display === 'none' ? 'block' : 'none';
+                    });
+                }
+            });
         }
 
         function createMessageElement(message, isSent) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', isSent ? 'sent' : 'received');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', isSent ? 'sent' : 'received');
 
-        messageElement.innerHTML = `
+            messageElement.innerHTML = `
             <div class="message-content">
                 <p class="message-text">${message}</p>
                 <span class="message-time">${new Date().toLocaleTimeString()}</span>
             </div>
         `;
 
-        // Gọi hàm thêm nút dịch sau khi tin nhắn mới được tạo
-        addTranslateButton();
+            // Gọi hàm thêm nút dịch sau khi tin nhắn mới được tạo
+            addTranslateButton();
 
-        return messageElement;
-    }
+            return messageElement;
+        }
 
 
 
@@ -191,25 +203,21 @@
 
 
         socket.on('receiveMessage', (data) => {
-    console.log('Received message:', data);
-    const receivedMessage = document.createElement('div');
-    receivedMessage.classList.add('message', 'received');
-    receivedMessage.innerHTML = `
+            console.log('Received message:', data);
+            const receivedMessage = document.createElement('div');
+            receivedMessage.classList.add('message', 'received');
+            receivedMessage.innerHTML = `
         <div class="message-content">
             <p class="message-text">${data.message}</p>
             <span class="message-time">${new Date(data.timestamp).toLocaleTimeString()}</span>
         </div>
     `;
-    chatBox.appendChild(receivedMessage);
+            chatBox.appendChild(receivedMessage);
 
-    // Sau khi tin nhắn mới được nhận, gọi lại addTranslateButton để gán nút dịch
-    addTranslateButton();
-    chatBox.scrollTop = chatBox.scrollHeight;
-});
-
-
-
-
+            // Sau khi tin nhắn mới được nhận, gọi lại addTranslateButton để gán nút dịch
+            addTranslateButton();
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
     </script>
     <script src="../public/js/speed_to_text.js"></script>
 

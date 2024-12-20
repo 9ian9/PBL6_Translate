@@ -11,6 +11,9 @@ const flashcardRouter = require('./routes/flashcardRouter');
 const profileRouter = require('./routes/profileRouter');
 const topicRouter = require('./routes/topicRouter');
 const chatRoutes = require('./routes/chat');
+const i18n = require('./public/js/i18n');
+const cookieParser = require('cookie-parser');
+
 
 const socket = require('./controllers/socketController');
 
@@ -19,10 +22,17 @@ const server = http.Server(app);
 const io = socketIO(server);
 const session = require('express-session');
 require('dotenv').config();
+app.use(cookieParser());
+app.use(i18n.init);
 
 app.use(authRoutes);
 
-
+// Middleware đặt ngôn ngữ dựa trên cookie
+app.use((req, res, next) => {
+    const lang = req.cookies.lang || 'en'; // Ngôn ngữ mặc định là tiếng Anh
+    req.setLocale(lang);
+    next();
+});
 
 // Middleware để parse body của request
 app.use(express.urlencoded({ extended: true }));
@@ -59,7 +69,7 @@ app.use('/', chatRoutes);
 const profileController = require('./controllers/profileController')
 app.get('/profile', profileController.getProfilePage);
 app.post('/profile/update', profileController.updateProfile);
-app.post('/profile/changePassword',profileController.changePassword);
+app.post('/profile/changePassword', profileController.changePassword);
 
 // Route cho trang chủ để render login.ejs
 app.get('/', (req, res) => {
