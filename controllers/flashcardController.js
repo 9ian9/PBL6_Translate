@@ -92,6 +92,21 @@ exports.addVocabulary = async(req, res) => {
         res.status(500).send('Server error');
     }
 };
+exports.getVocabulary = async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const vocabulary = await Vocabulary.findByPk(id);
+        if (!vocabulary) {
+            return res.status(404).send('Vocabulary not found');
+        }
+
+        res.json(vocabulary); // Trả về dữ liệu từ vựng dưới dạng JSON
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+};
 
 exports.editVocabulary = async(req, res) => {
     const { id } = req.params;
