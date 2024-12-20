@@ -8,162 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../public/css/styles.min.css" />
     <style>
-       .vocabulary-container {
-        padding: 10px;
-        font-size: 16px;
-        display: flex;
-        margin-top: 20px;
-        height: 100%;
-        background-color: #fff;
-    }
-    .sidebar {
-    width: 250px;
-    padding: 10px;
-    background-color: #f4f4f4;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    .sidebar-item {
-    
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    }
-
-    .content {
-    flex-grow: 1;
-    padding-left: 20px;
-    }
-    .content-header {
-        margin-top: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
-    }
-    /* Danh sách từ vựng */
-    .vocabulary-list {
-        display: none;
-    }
-
-    .vocabulary-item {
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-
-    }
-
-    .vocabulary-item p {
-        margin: 0;
-        font-size: 16px;
-    }
-
-    .vocabulary-item strong {
-        color: #333;
-        font-weight: bold;
-    }
-
-    .no-vocabulary {
-        color: #888;
-        font-style: italic;
-    }
-
-    /* Hiệu ứng hover cho từng mục từ vựng */
-    .vocabulary-item:hover {
-        background-color: #e7f5e7;
-        cursor: pointer;
-    }
-
-
-
-    .modal {
-        display: none;
-        /* Ẩn modal mặc định */
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.4);
-        }
         
-
-    .modal-dialog {
-        margin: 15% auto;
-    }
-
-    /* Bố cục ngang hàng cho từng mục */
-.vocabulary-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.vocabulary-content:last-child {
-    border-bottom: none;
-}
-
-/* Văn bản */
-.vocabulary-content p {
-    margin: 0;
-    font-size: 1rem;
-}
-
-/* Nút hành động */
-.action-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.edit-button, .delete-button {
-    padding: 5px 10px;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-/* Nút Edit */
-.edit-button {
-    background-color: #ffc107; /* Màu vàng */
-    color: #fff;
-}
-
-.edit-button:hover {
-    background-color: #e0a800; /* Màu vàng đậm hơn */
-}
-
-/* Nút Delete */
-.delete-button {
-    background-color: #dc3545; /* Màu đỏ */
-    color: #fff;
-}
-
-.delete-button:hover {
-    background-color: #c82333; /* Màu đỏ đậm hơn */
-}
-.vocabulary-label {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block; /* Đảm bảo label nằm riêng một dòng */
-    color: #333;
-}
-
-
     </style>
 </head>
 
@@ -187,8 +32,8 @@
 
                         <!-- Search Bar -->
                         <div class="search-bar">
-                            <input type="text" class="form-control" id="search-input"
-                                placeholder="Search vocabulary...">
+                            <input type="text" class="form-control" id="search-input"placeholder="Search vocabulary...">
+                            <ul id="suggestions-list" class="suggestions-list" style="display: none;"></ul>
                         </div>
                         <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">Thêm Từ Mới</button>
 
@@ -338,7 +183,7 @@
                 modal.style.display = 'none'; // Ẩn modal
             }
         });
-});
+        });
 
     </script>
 
@@ -369,6 +214,26 @@
                 }
             });
         });
+    </script>
+    <script>
+document.getElementById('search-input').addEventListener('input', function () {
+    const searchValue = this.value.toLowerCase();  // Lấy từ khóa tìm kiếm và chuyển thành chữ thường
+    const items = document.querySelectorAll('.vocabulary-item');  // Lấy tất cả các mục từ vựng
+
+    items.forEach(item => {
+        const title = item.querySelector('.vocabulary-content strong').textContent.toLowerCase(); // Lấy từ Tiếng Anh
+        const description = item.querySelector('.vocabulary-content p').textContent.toLowerCase(); // Lấy nghĩa Tiếng Việt
+
+        // Kiểm tra xem từ khóa tìm kiếm có xuất hiện trong từ Tiếng Anh hoặc nghĩa Tiếng Việt không
+        if (title.includes(searchValue) || description.includes(searchValue)) {
+            item.style.display = 'block';  // Hiển thị từ vựng
+        } else {
+            item.style.display = 'none';  // Ẩn từ vựng
+        }
+    });
+});
+
+
     </script>
     <script src="../public/libs/jquery/dist/jquery.min.js"></script>
     <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
