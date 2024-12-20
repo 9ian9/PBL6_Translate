@@ -17858,3 +17858,50 @@ ul {
     font-weight: bold;
     pointer-events: none; /* Đảm bảo không thể thay đổi nội dung */
 }
+.message-content {
+    max-width: 100%; /* Đảm bảo chiều rộng tối đa là 100% của phần tử cha */
+    word-wrap: break-word; /* Chia từ khi vượt quá chiều rộng */
+    overflow-wrap: break-word; /* Đảm bảo từ dài không tràn ra ngoài */
+}
+
+.message-text {
+    word-break: break-word; /* Ngắt từ khi cần thiết */
+    overflow: hidden; /* Ẩn phần văn bản bị tràn ra ngoài */
+    text-overflow: ellipsis; /* Thêm dấu ba chấm (...) nếu văn bản dài */
+}
+.translate-btn {
+    font-size: 16px; /* Tăng kích thước biểu tượng */
+    background-color: #007bff; /* Màu nền xanh nổi bật */
+    color: white; /* Màu chữ trắng */
+    border: 2px solid #007bff; /* Đường viền xanh */
+    padding: 8px 12px; /* Tăng kích thước nút */
+    border-radius: 5px; /* Bo tròn các góc */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Thêm hiệu ứng chuyển động */
+}
+
+/* Hiệu ứng hover */
+.translate-btn:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+    transform: scale(1.1); /* Phóng to nút khi hover */
+}
+
+/* Thêm hiệu ứng khi click */
+.translate-btn:active {
+    transform: scale(0.95); /* Thu nhỏ nút khi click */
+}
+
+/* Biểu tượng dịch */
+.translate-btn i {
+    margin-right: 5px; /* Khoảng cách giữa biểu tượng và chữ */
+}
+
+/* Hiển thị phần dịch */
+.translation {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #888; /* Màu xám cho phần dịch */
+}
