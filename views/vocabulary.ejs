@@ -32,10 +32,7 @@
     margin-bottom: 10px;
     border-radius: 5px;
     }
-    .sidebar-item:hover {
-    background-color: #2952ff;
-    color: white;
-    }
+
     .content {
     flex-grow: 1;
     padding-left: 20px;
@@ -103,6 +100,70 @@
     .modal-dialog {
         margin: 15% auto;
     }
+
+    /* Bố cục ngang hàng cho từng mục */
+.vocabulary-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.vocabulary-content:last-child {
+    border-bottom: none;
+}
+
+/* Văn bản */
+.vocabulary-content p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Nút hành động */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-button, .delete-button {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Nút Edit */
+.edit-button {
+    background-color: #ffc107; /* Màu vàng */
+    color: #fff;
+}
+
+.edit-button:hover {
+    background-color: #e0a800; /* Màu vàng đậm hơn */
+}
+
+/* Nút Delete */
+.delete-button {
+    background-color: #dc3545; /* Màu đỏ */
+    color: #fff;
+}
+
+.delete-button:hover {
+    background-color: #c82333; /* Màu đỏ đậm hơn */
+}
+.vocabulary-label {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block; /* Đảm bảo label nằm riêng một dòng */
+    color: #333;
+}
+
+
     </style>
 </head>
 
@@ -132,7 +193,9 @@
                         <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">Thêm Từ Mới</button>
 
                         <!-- Vocabulary Sections -->
+                        <label for="vocabulary-container" class="vocabulary-label">Danh sách từ vựng</label>
                         <div class="vocabulary-container">
+                            
                             <div class="sidebar">
                                 <% topics.forEach(topic => { %>
                                     <div class="sidebar-item" onclick="showVocabulary('<%= topic.id %>');">
@@ -148,9 +211,24 @@
                                         <% if (topic.vocabularies.length > 0) { %>
                                             <% topic.vocabularies.forEach(vocabulary => { %>
                                                 <div class="vocabulary-item">
-                                                    <p>
-                                                        <strong><%= vocabulary.english_word %></strong>: <%= vocabulary.vietnamese_meaning %>
-                                                    </p>
+                                                    <div class="vocabulary-content">
+                                                        <p>
+                                                            <strong><%= vocabulary.english_word %></strong>: <%= vocabulary.vietnamese_meaning %>
+                                                        </p>
+                                                        <div class="action-buttons">
+                                                            <button class="edit-button" onclick="editVocabulary('<%= vocabulary.id %>')">
+                                                                <span>
+                                                                    <iconify-icon icon="uil:edit" class="fs-6"></iconify-icon>
+                                                                </span>
+                                                            </button>
+                                                            <button class="delete-button" onclick="deleteVocabulary('<%= vocabulary.id %>')">
+                                                                <span>
+                                                                    <iconify-icon icon="material-symbols:delete-outline-rounded" class="fs-6"></iconify-icon>
+                                                                </span>
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             <% }); %>
                                         <% } else { %>
@@ -159,6 +237,7 @@
                                     </div>
                                 <% }); %>
                             </div>
+                            
                         </div>
                         
                     <!-- Modal cho thêm từ mới -->

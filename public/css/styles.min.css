@@ -17841,3 +17841,20 @@ ul {
 .call-buttons .audio-call:hover {
     background-color: #70AAF7;
 }
+.readonly-box {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.readonly-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    pointer-events: none; /* Đảm bảo không thể thay đổi nội dung */
+}
