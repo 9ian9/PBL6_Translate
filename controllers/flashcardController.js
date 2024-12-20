@@ -75,7 +75,7 @@ exports.addVocabulary = async(req, res) => {
 
         // Nếu có tên topic mới, thêm vào DB
         if (newTopic) {
-            const topic = await Topic.create({ title: newTopic, user_id: req.body.userId });
+            const topic = await Topic.create({ title: newTopic, user_id: req.session.user.id });
             topicIdToUse = topic.id;
         }
 
@@ -118,6 +118,7 @@ exports.deleteVocabulary = async(req, res) => {
     const { id } = req.params;
 
     try {
+        console.log(`Received ID: ${id}`); // In ra ID nhận được
         const vocabulary = await Vocabulary.findByPk(id);
         if (!vocabulary) {
             return res.status(404).send('Vocabulary not found');

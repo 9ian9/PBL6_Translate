@@ -11,6 +11,7 @@ sequelize.authenticate()
 const Topic = sequelize.define('Topic', {
     id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false,
         unique: true
@@ -19,6 +20,10 @@ const Topic = sequelize.define('Topic', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     tableName: 'topic', // Đảm bảo tên bảng là 'topic'
