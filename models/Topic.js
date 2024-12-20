@@ -19,6 +19,10 @@ const Topic = sequelize.define('Topic', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+    imgTopic: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 }, {
     tableName: 'topic', // Đảm bảo tên bảng là 'topic'
