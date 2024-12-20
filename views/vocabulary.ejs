@@ -8,76 +8,101 @@
     <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../public/css/styles.min.css" />
     <style>
-        .vocabulary-section {
-            margin-top: 30px;
-        }
+       .vocabulary-container {
+        padding: 10px;
+        font-size: 16px;
+        display: flex;
+        margin-top: 20px;
+        height: 100%;
+        background-color: #fff;
+    }
+    .sidebar {
+    width: 250px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar-item {
+    
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    }
+    .sidebar-item:hover {
+    background-color: #2952ff;
+    color: white;
+    }
+    .content {
+    flex-grow: 1;
+    padding-left: 20px;
+    }
+    .content-header {
+        margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+    }
+    /* Danh sách từ vựng */
+    .vocabulary-list {
+        display: none;
+    }
 
-        .vocabulary-category {
-            margin-bottom: 20px;
-        }
+    .vocabulary-item {
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 
-        .vocabulary-category h3 {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 15px;
-        }
+    }
 
-        .vocabulary-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
+    .vocabulary-item p {
+        margin: 0;
+        font-size: 16px;
+    }
 
-        .vocabulary-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+    .vocabulary-item strong {
+        color: #333;
+        font-weight: bold;
+    }
 
-        .vocabulary-item h5 {
-            font-size: 1.25rem;
-            margin-bottom: 10px;
-        }
+    .no-vocabulary {
+        color: #888;
+        font-style: italic;
+    }
 
-        .vocabulary-item p {
-            font-size: 1rem;
-            color: #666;
-        }
+    /* Hiệu ứng hover cho từng mục từ vựng */
+    .vocabulary-item:hover {
+        background-color: #e7f5e7;
+        cursor: pointer;
+    }
 
-        .search-bar {
-            margin-bottom: 20px;
-        }
 
-        .dropdown-icon {
-            cursor: pointer;
-            font-size: 1.2em;
-            margin-left: 10px;
-            /* Khoảng cách giữa tiêu đề và icon */
-        }
 
-        .vocabulary-item p {
-            margin: 10px 0;
-            /* Khoảng cách giữa các từ vựng */
+    .modal {
+        display: none;
+        /* Ẩn modal mặc định */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
         }
+        
 
-        .modal {
-            display: none;
-            /* Ẩn modal mặc định */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-dialog {
-            margin: 15% auto;
-        }
+    .modal-dialog {
+        margin: 15% auto;
+    }
     </style>
 </head>
 
@@ -104,46 +129,38 @@
                             <input type="text" class="form-control" id="search-input"
                                 placeholder="Search vocabulary...">
                         </div>
-                        <button class="btn btn-primary" onclick="showAddVocabularyModal()">Thêm Từ Mới</button>
+                        <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">Thêm Từ Mới</button>
 
                         <!-- Vocabulary Sections -->
-                        <div class="vocabulary-section">
-                            <% topics.forEach(topic=> { %>
-                                <div class="vocabulary-category">
-                                    <h3>
-                                        <a href="#" class="topic-title"
-                                            onclick="toggleVocabulary('<%= topic.id %>'); return false;">
-                                            <%= topic.title %>
-                                        </a>
-                                        <span class="dropdown-icon"
-                                            onclick="toggleVocabulary('<%= topic.id %>'); return false;">
-                                            &#9662; <!-- Biểu tượng dropdown (mũi tên xuống) -->
-                                        </span>
-                                    </h3>
-                                    <!-- Tiêu đề topic -->
-
-                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list"
-                                        style="display: none;">
-                                        <% if (topic.vocabularies.length> 0) { %>
-                                            <% topic.vocabularies.forEach(vocabulary=> { %>
+                        <div class="vocabulary-container">
+                            <div class="sidebar">
+                                <% topics.forEach(topic => { %>
+                                    <div class="sidebar-item" onclick="showVocabulary('<%= topic.id %>');">
+                                        <%= topic.title %>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        
+                            <div class="content">
+                                <% topics.forEach(topic => { %>
+                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list" style="display: none;">
+                                        <h3 class="content-header"><%= topic.title %></h3>
+                                        <% if (topic.vocabularies.length > 0) { %>
+                                            <% topic.vocabularies.forEach(vocabulary => { %>
                                                 <div class="vocabulary-item">
                                                     <p>
-                                                        <strong>
-                                                            <%= vocabulary.english_word %>
-                                                        </strong> :
-                                                        <%= vocabulary.vietnamese_meaning %>
+                                                        <strong><%= vocabulary.english_word %></strong>: <%= vocabulary.vietnamese_meaning %>
                                                     </p>
-                                                    <!-- Hiển thị ngang hàng -->
                                                 </div>
-                                                <% }); %>
-                                                    <% } else { %>
-                                                        <p>Topic này chưa có từ mới nào.</p>
-                                                        <% } %>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <p class="no-vocabulary">Topic này chưa có từ mới nào.</p>
+                                        <% } %>
                                     </div>
-                                </div>
                                 <% }); %>
+                            </div>
                         </div>
-                    </div>
+                        
                     <!-- Modal cho thêm từ mới -->
                     <div id="addVocabularyModal" class="modal" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
@@ -210,7 +227,17 @@
         function deleteVocabulary(vocabularyId) {
             // Xóa từ vựng qua API hoặc request
         }
+        function showVocabulary(topicId) {
+        // Hide all vocabulary lists
+        const allLists = document.querySelectorAll('.vocabulary-list');
+        allLists.forEach(list => list.style.display = 'none');
 
+        // Show the selected vocabulary list
+        const selectedList = document.getElementById(`vocabularies-${topicId}`);
+        if (selectedList) {
+            selectedList.style.display = 'block';
+        }
+}
         document.getElementById('topicSelect').addEventListener('change', function () {
             const newTopicGroup = document.getElementById('newTopicGroup');
             if (this.value === 'new') {
@@ -219,6 +246,21 @@
                 newTopicGroup.style.display = 'none';
             }
         });
+        document.addEventListener('DOMContentLoaded', function () {
+        const closeButton = document.querySelector('#addVocabularyModal .close');
+        const modal = document.getElementById('addVocabularyModal');
+
+        closeButton.addEventListener('click', function () {
+            modal.style.display = 'none'; // Ẩn modal
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none'; // Ẩn modal
+            }
+        });
+});
+
     </script>
 
     <script>
@@ -249,6 +291,14 @@
             });
         });
     </script>
+    <script src="../public/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../public/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../public/js/sidebarmenu.js"></script>
+    <script src="../public/js/app.min.js"></script>
+    <script src="../public/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 
 </body>
 

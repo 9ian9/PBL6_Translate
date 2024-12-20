@@ -7,139 +7,365 @@
     <title>Profile</title>
     <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../public/css/styles.min.css" />
+    <style>
+        /* Tổng quát */
+        body {
+            
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+        }
+
+        .card-header {
+            background-color: #70AAF7;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+
+        .card-header-primary h4 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .card-header-primary p {
+            margin: 5px 0 0;
+            font-size: 15px;
+            font-weight: lighter;
+        }
+
+        /* Form */
+        form {
+            margin-top: 20px;
+        }
+
+        form .form-group {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            font-size: 15px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        form input:focus,
+        form textarea:focus {
+            border-color: #70AAF7;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        form textarea {
+            resize: none;
+        }
+
+        button[type="submit"] {
+            background-color: #70AAF7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #70AAF7;
+        }
+
+        /* Card Avatar */
+        .card-profile .card-avatar {
+            text-align: center;
+            margin-top: -50px;
+        }
+
+        .card-profile .card-avatar img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-profile .card-body {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .card-profile h6 {
+            font-size: 14px;
+            color: #999;
+            margin: 10px 0;
+        }
+
+        .card-profile h4 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .card-profile p {
+            font-size: 14px;
+            color: #777;
+            margin: 10px 0;
+        }
+
+        .card-profile a.btn {
+            background-color: #70AAF7;
+            color: #fff;
+            border-radius: 5px;
+            padding: 8px 15px;
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card-profile a.btn:hover {
+            background-color: #70AAF7;
+        }
+
+        /* Popup Modal */
+        /* Modal container */
+.modal {
+    display: none; /* Ẩn modal khi chưa mở */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Cung cấp thanh cuộn nếu nội dung vượt quá */
+    background-color: rgba(0, 0, 0, 0.4); /* Màu nền mờ */
+}
+
+/* Nội dung modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Canh giữa modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* Chỉnh sửa kích thước của modal */
+    border-radius: 8px; /* Làm tròn các góc modal */
+}
+
+/* X close button */
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+/* Đổi màu khi hover vào button close */
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form điều chỉnh kích thước */
+#change-password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input fields */
+#change-password-form .form-control {
+    width: 100%; /* Chiếm hết chiều rộng */
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Button Update */
+#change-password-form .btn {
+    padding: 10px;
+    background-color: #007bff; /* Màu xanh của nút */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover effect for the button */
+#change-password-form .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%; /* Giảm chiều rộng modal trên màn hình nhỏ */
+    }
+}
+
+    </style>
 </head>
 
 <body>
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
 
-    <!-- Sidebar Start -->
-    <%- include('sidebar') %>
-    <!--  Sidebar End -->
+        <!-- Sidebar Start -->
+        <%- include('sidebar') %>
+        <!--  Sidebar End -->
 
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-    <!--  Header Start -->
-    <%- include('header') %>
-    <!--  Header End -->
-      <div class="container-fluid">
-          <!-- Main content -->
-          <div class="row">
-            <div class="col-md-8">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title">Edit Profile</h4>
-                  <p class="card-category">Complete your profile</p>
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <%- include('header') %>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <!-- Main content -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title">Edit Profile</h4>
+                                <p class="card-category">Complete your profile</p>
+                            </div>
+                            <div class="card-body">
+                                <form action="/profile/update" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Username</label>
+                                                <input type="text" class="form-control" value="<%= user.username %>" readonly>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Email address</label>
+                                                <input type="email" class="form-control" value="<%= user.email %>" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">First Name</label>
+                                                <input type="text" class="form-control" id="first_name" name="first_name" value="<%= user.first_name %>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Last Name</label>
+                                                <input type="text" class="form-control" id="last_name" name="last_name" value="<%= user.last_name %>">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>About Me</label>
+                                                <div class="form-group">
+                                                    <textarea class="form-control" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-profile" style="box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);">
+                            <div class="card-avatar" style="margin-top: 30px;">
+                                <a href="#pablo">
+                                    <img class="img" src="../public/images/profile/user-2.jpg" />
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-category text-gray">
+                                </h6>
+                                <h4 class="card-title">
+                                    <%= user.username %>
+                                </h4>
+                                <p class="card-description">
+                                    Don't be scared of the truth because we need to restart the human foundation in truth. And I love you like Kanye loves Kanye. I love Rick Owens’ bed design but the back is...
+                                </p>
+                                <a href="javascript:void(0);" class="btn btn-primary btn-round" onclick="openModal()">Change Password</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <form>
-                    <div class="row">
-                      <div class="col-md-5">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">UserID (disabled)</label>
-                          <input type="text" class="form-control" disabled value="{{ current_user.id }}">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Username</label>
-                          <input type="text" class="form-control" value="{{ current_user.username }}">
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Email address</label>
-                          <input type="email" class="form-control" value="{{ current_user.email }}">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Fist Name</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Last Name</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Adress</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">City</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Country</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Postal Code</label>
-                          <input type="text" class="form-control">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>About Me</label>
-                          <div class="form-group">
-                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
-                            <textarea class="form-control" rows="5"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
-                    <div class="clearfix"></div>
-                  </form>
-                </div>
-              </div>
             </div>
-            <div class="col-md-4">
-              <div class="card card-profile">
-                <div class="card-avatar">
-                  <a href="#pablo">
-                    <img class="img" src="/static/assets/img/faces/marc.jpg" />
-                  </a>
-                </div>
-                <div class="card-body">
-                  <h6 class="card-category text-gray">
-                    {{ current_user.username }}
-                  </h6>
-                  <h4 class="card-title">
-                    {{ current_user.email }}
-                  </h4>
-                  <p class="card-description">
-                    Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                  </p>
-                  <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-      </div>
+        </div>
 
-  </div>
-  
-  
+        <!--  Change Password Modal -->
+        <div id="changePasswordModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h4>Change Password</h4>
+                <form action="/profile/changePassword"  method="POST">
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" class="form-control" id="currentPass" name="currentPass" placeholder="Current password">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" class="form-control" id="newPass" name="newPass" placeholder="New password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPass" name="confirmPass" placeholder="Confirm new password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("changePasswordModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("changePasswordModal").style.display = "none";
+        }
+    </script>
+    <script src="../public/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../public/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../public/js/sidebarmenu.js"></script>
+    <script src="../public/js/app.min.js"></script>
+    <script src="../public/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 
 </html>
