@@ -29,6 +29,14 @@ const User = sequelize.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    last_name: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     timestamps: false // Tắt tính năng tự động thêm createdAt và updatedAt

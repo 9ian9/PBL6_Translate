@@ -55,6 +55,11 @@ app.use('/', topicRouter);
 app.use('/', chatRoutes);
 
 
+const profileController = require('./controllers/profileController')
+app.get('/profile', profileController.getProfilePage);
+app.post('/profile/update', profileController.updateProfile);
+app.post('/profile/changePassword',profileController.changePassword);
+
 // Route cho trang chủ để render login.ejs
 app.get('/', (req, res) => {
     res.render('login', { title: 'Login' });
