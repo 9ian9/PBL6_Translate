@@ -23,6 +23,24 @@
         .card {
             margin-top: 50px;
         }
+        /* Thêm CSS nếu cần thiết */
+/* Nút chuyển đổi ngôn ngữ - chỉ hiển thị icon */
+#swapBtn {
+    background-color: transparent; /* Không có nền */
+    border: none; /* Không có viền */
+    padding: 0; /* Không có khoảng cách bên trong */
+    font-size: 1.5em; /* Kích thước của icon */
+    cursor: pointer; /* Hiển thị con trỏ khi hover */
+    display: inline-flex; /* Hiển thị icon ở dạng inline */
+    align-items: center; /* Căn giữa icon theo chiều dọc */
+    justify-content: center; /* Căn giữa icon theo chiều ngang */
+}
+
+#swapBtn .iconify-icon {
+    color: #333; /* Màu sắc của icon */
+}
+
+
     </style>
 </head>
 
@@ -49,36 +67,44 @@
                                 <div class="row translate-box">
                                     <div class="col-md-6">
                                         <textarea id="inputText" class="form-control" rows="8"
-                                            placeholder="Nhập văn bản cần dịch..."></textarea>
+                                            placeholder="Enter the text to be translated..."></textarea>
                                     </div>
                                     <div class="col-md-6">
                                         <textarea id="outputText" class="form-control" rows="8"
-                                            placeholder="Kết quả dịch sẽ hiển thị ở đây..." readonly></textarea>
+                                            placeholder="Translation results will be displayed here..." readonly></textarea>
                                     </div>
                                 </div>
-
                                 <!-- Chọn ngôn ngữ -->
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <select id="sourceLang" class="form-select">
-                                            <option value="en">Tiếng Anh</option>
-                                            <option value="vi">Tiếng Việt</option>
-
+                                            <option value="en">English</option>
+                                            <option value="vi">VietNamese</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <select id="targetLang" class="form-select">
-                                            <option value="vi">Tiếng Việt</option>
-                                            <option value="en">Tiếng Anh</option>
+                                    
+                                    <!-- Nút chuyển đổi ngôn ngữ -->
+                                    <div class="col-md-2 text-center align-self-center">
+                                        <button id="swapBtn" class="btn btn-secondary">
+                                            <span>
+                                                <iconify-icon icon="mi:switch" class="fs-6"></iconify-icon>
+                                            </span>
+                                        </button>
+                                    </div>
 
+                                    <div class="col-md-5">
+                                        <select id="targetLang" class="form-select">
+                                            <option value="vi">VietNamese</option>
+                                            <option value="en">English</option>
                                         </select>
                                     </div>
                                 </div>
+
 
                                 <!-- Nút dịch -->
                                 <div class="row mt-3">
                                     <div class="col-12">
-                                        <button id="translateBtn" class="btn btn-primary w-100">Dịch</button>
+                                        <button id="translateBtn" class="btn btn-primary w-100">Translate</button>
                                     </div>
                                 </div>
 
@@ -89,6 +115,21 @@
                     </div>
             </div>
     </div>
+    <script>
+        // Lấy các phần tử DOM
+        const swapBtn = document.getElementById('swapBtn');
+        const sourceLang = document.getElementById('sourceLang');
+        const targetLang = document.getElementById('targetLang');
+
+        // Lắng nghe sự kiện click vào nút chuyển đổi
+        swapBtn.addEventListener('click', function() {
+            // Hoán đổi giá trị của ngôn ngữ nguồn và ngôn ngữ đích
+            const temp = sourceLang.value;
+            sourceLang.value = targetLang.value;
+            targetLang.value = temp;
+        });
+
+    </script>
     <script src="../public/libs/jquery/dist/jquery.min.js"></script>
     <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>

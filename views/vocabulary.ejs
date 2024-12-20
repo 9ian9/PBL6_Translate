@@ -35,10 +35,10 @@
                             <input type="text" class="form-control" id="search-input"placeholder="Search vocabulary...">
                             <ul id="suggestions-list" class="suggestions-list" style="display: none;"></ul>
                         </div>
-                        <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">Thêm Từ Mới</button>
+                        <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">add new words</button>
 
                         <!-- Vocabulary Sections -->
-                        <label for="vocabulary-container" class="vocabulary-label">Danh sách từ vựng</label>
+                        <label for="vocabulary-container" class="vocabulary-label">List of vocabulary topics</label>
                         <div class="vocabulary-container">
                             
                             <div class="sidebar">
@@ -77,7 +77,7 @@
                                                 </div>
                                             <% }); %>
                                         <% } else { %>
-                                            <p class="no-vocabulary">Topic này chưa có từ mới nào.</p>
+                                            <p class="no-vocabulary">This topic does not have any new words yet.</p>
                                         <% } %>
                                     </div>
                                 <% }); %>
@@ -90,7 +90,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Thêm Từ Mới</h5>
+                                    <h5 class="modal-title">add new words</h5>
                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -99,29 +99,29 @@
                                 <div class="modal-body">
                                     <form id="addVocabularyForm">
                                         <div class="form-group">
-                                            <label for="englishWord">Từ Tiếng Anh</label>
+                                            <label for="englishWord">English vocabulary</label>
                                             <input type="text" class="form-control" id="englishWord" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="vietnameseMeaning">Nghĩa Tiếng Việt</label>
+                                            <label for="vietnameseMeaning">Vietnamese Meaning</label>
                                             <input type="text" class="form-control" id="vietnameseMeaning" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="topicSelect">Chọn Topic</label>
+                                            <label for="topicSelect">Select Topic</label>
                                             <select class="form-control" id="topicSelect">
                                                 <% topics.forEach(topic=> { %>
                                                     <option value="<%= topic.id %>">
                                                         <%= topic.title %>
                                                     </option>
                                                     <% }); %>
-                                                        <option value="new">Thêm Topic Mới</option>
+                                                        <option value="new">Add new Topic </option>
                                             </select>
                                         </div>
                                         <div class="form-group" id="newTopicGroup" style="display: none;">
-                                            <label for="newTopic">Tên Topic Mới</label>
+                                            <label for="newTopic">Name of new Topic</label>
                                             <input type="text" class="form-control" id="newTopic">
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Thêm</button>
+                                        <button type="submit" class="btn btn-primary">Add</button>
                                     </form>
                                 </div>
                             </div>
