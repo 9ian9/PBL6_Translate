@@ -50,11 +50,13 @@
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-    <script src="../assets/js/sidebarmenu.js"></script>
-    <script src="../assets/js/app.min.js"></script>
+    <script src="../public/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../public/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../public/js/sidebarmenu.js"></script>
+    <script src="../public/js/app.min.js"></script>
+    <script src="../public/js/dashboard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script>
         const socket = io({
@@ -78,27 +80,24 @@
         });
 
         async function loadChatHistory(senderId, receiverId) {
-            const response = await fetch(`/chat/messages/${senderId}/${receiverId}`);
-            const data = await response.json();
-            chatBox.innerHTML = '';
+        const response = await fetch(`/chat/messages/${senderId}/${receiverId}`);
+        const data = await response.json();
+        chatBox.innerHTML = '';
 
-            if (data.messages.length > 0) {
-                data.messages.forEach(msg => {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', msg.sender_id === parseInt(senderId) ? 'sent' : 'received');
-                    messageElement.innerHTML = `
-                        <div class="message-content">
-                            <p class="message-text">${msg.message}</p>
-                            <span class="message-time">${new Date(msg.timestamp).toLocaleTimeString()}</span>
-                        </div>
-                    `;
-                    chatBox.appendChild(messageElement);
-                });
-            } else {
-                chatBox.innerHTML = '<p class="text-muted text-center">No messages yet</p>';
-            }
-            chatBox.scrollTop = chatBox.scrollHeight;
+        if (data.messages.length > 0) {
+            data.messages.forEach(msg => {
+                const messageElement = createMessageElement(msg.message, msg.sender_id === parseInt(senderId));
+                chatBox.appendChild(messageElement);
+            });
+        } else {
+            chatBox.innerHTML = '<p class="text-muted text-center">No messages yet</p>';
         }
+
+        // Gọi hàm thêm nút dịch vào tất cả các tin nhắn (gửi và nhận)
+        addTranslateButton();
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
 
         function updateSendButtonState() {
             sendButton.disabled = messageInput.value.trim() === '';
@@ -112,33 +111,60 @@
                 sendMessage();
             }
         });
+        document.addEventListener('DOMContentLoaded', () => {
+    // Gọi hàm addTranslateButton khi DOM đã tải xong để thêm nút dịch vào tất cả tin nhắn hiện có
+    addTranslateButton();
+});
+
+        function addTranslateButton() {
+        // Chọn tất cả các tin nhắn
+        const messageElements = document.querySelectorAll('.message .message-content');
+
+        messageElements.forEach(messageElement => {
+            // Kiểm tra nếu nút dịch chưa tồn tại
+            if (!messageElement.querySelector('.translate-btn')) {
+                // Tạo nút dịch
+                const translateButton = document.createElement('button');
+                translateButton.classList.add('btn', 'btn-link', 'translate-btn');
+                translateButton.style.marginLeft = '10px';
+                translateButton.innerHTML = '<i class="fas fa-language"></i>';  // Biểu tượng dịch
+
+                // Tạo phần tử dịch
+                const translationDiv = document.createElement('div');
+                translationDiv.classList.add('translation');
+                translationDiv.style.display = 'none';
+                translationDiv.innerHTML = '<p class="translation-text">Translation will appear here...</p>';
+
+                // Thêm nút dịch và phần tử dịch vào tin nhắn
+                messageElement.appendChild(translateButton);
+                messageElement.appendChild(translationDiv);
+
+                // Thêm sự kiện cho nút dịch
+                translateButton.addEventListener('click', () => {
+                    const translationDiv = messageElement.querySelector('.translation');
+                    translationDiv.style.display = translationDiv.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+        });
+        }
 
         function createMessageElement(message, isSent) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message', isSent ? 'sent' : 'received');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', isSent ? 'sent' : 'received');
 
-            messageElement.innerHTML = `
-                <div class="message-content">
-                    <p class="message-text">${message}</p>
-                    <span class="message-time">${new Date().toLocaleTimeString()}</span>
-                    <button class="btn btn-link translate-btn" style="margin-left: 10px;">
-                        <i class="fas fa-language"></i> <!-- Biểu tượng dịch -->
-                    </button>
-                    <div class="translation" style="display: none; margin-top: 5px;">
-                        <p class="translation-text">Translation will appear here...</p>
-                    </div>
-                </div>
-            `;
+        messageElement.innerHTML = `
+            <div class="message-content">
+                <p class="message-text">${message}</p>
+                <span class="message-time">${new Date().toLocaleTimeString()}</span>
+            </div>
+        `;
 
-            // Thêm sự kiện cho nút dịch
-            const translateButton = messageElement.querySelector('.translate-btn');
-            translateButton.addEventListener('click', () => {
-                const translationDiv = messageElement.querySelector('.translation');
-                translationDiv.style.display = translationDiv.style.display === 'none' ? 'block' : 'none';
-            });
+        // Gọi hàm thêm nút dịch sau khi tin nhắn mới được tạo
+        addTranslateButton();
 
-            return messageElement;
-        }
+        return messageElement;
+    }
+
 
 
         // Sử dụng hàm này để tạo tin nhắn
@@ -159,23 +185,31 @@
                 messageInput.value = '';
                 chatBox.scrollTop = chatBox.scrollHeight;
                 updateSendButtonState();
+                addTranslateButton();
             }
         }
 
 
         socket.on('receiveMessage', (data) => {
-            console.log('Received message:', data); // Kiểm tra log xem client nhận đúng dữ liệu chưa
-            const receivedMessage = document.createElement('div');
-            receivedMessage.classList.add('message', 'received');
-            receivedMessage.innerHTML = `
-                <div class="message-content">
-                    <p class="message-text">${data.message}</p>
-                    <span class="message-time">${new Date(data.timestamp).toLocaleTimeString()}</span>
-                </div>
-            `;
-            chatBox.appendChild(receivedMessage);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        });
+    console.log('Received message:', data);
+    const receivedMessage = document.createElement('div');
+    receivedMessage.classList.add('message', 'received');
+    receivedMessage.innerHTML = `
+        <div class="message-content">
+            <p class="message-text">${data.message}</p>
+            <span class="message-time">${new Date(data.timestamp).toLocaleTimeString()}</span>
+        </div>
+    `;
+    chatBox.appendChild(receivedMessage);
+
+    // Sau khi tin nhắn mới được nhận, gọi lại addTranslateButton để gán nút dịch
+    addTranslateButton();
+    chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+
+
+
     </script>
     <script src="../public/js/speed_to_text.js"></script>
 
