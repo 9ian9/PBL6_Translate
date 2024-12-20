@@ -11,15 +11,15 @@
         .container {
             margin-top: 50px;
         }
-
+        
         .translate-box {
             margin-bottom: 20px;
         }
-
+        
         .translateBtn {
             background-color: aquamarine;
         }
-
+        
         .card {
             margin-top: 50px;
         }
@@ -28,8 +28,7 @@
 
 <body>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
 
         <!-- Sidebar Start -->
         <%- include('sidebar', { userId: userId }) %>
@@ -48,12 +47,10 @@
                                 <!-- Form nhập văn bản -->
                                 <div class="row translate-box">
                                     <div class="col-md-6">
-                                        <textarea id="inputText" class="form-control" rows="8"
-                                            placeholder="Nhập văn bản cần dịch..."></textarea>
+                                        <textarea id="inputText" class="form-control" rows="8" placeholder="Nhập văn bản cần dịch..."></textarea>
                                     </div>
                                     <div class="col-md-6">
-                                        <textarea id="outputText" class="form-control" rows="8"
-                                            placeholder="Kết quả dịch sẽ hiển thị ở đây..." readonly></textarea>
+                                        <textarea id="outputText" class="form-control" rows="8" placeholder="Kết quả dịch sẽ hiển thị ở đây..." readonly></textarea>
                                     </div>
                                 </div>
 
@@ -95,6 +92,56 @@
     <script src="../assets/js/sidebarmenu.js"></script>
     <script src="../assets/js/app.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script>
+        // Lắng nghe sự kiện khi nhấn nút "Dịch"
+        document.getElementById('translateBtn').addEventListener('click', async function() {
+            const inputText = document.getElementById('inputText').value.trim();
+            const sourceLang = document.getElementById('sourceLang').value;
+            const targetLang = document.getElementById('targetLang').value;
+
+            // Kiểm tra đầu vào
+            if (!inputText) {
+                alert('Vui lòng nhập văn bản cần dịch!');
+                return;
+            }
+
+            // Xác định endpoint API dựa trên ngôn ngữ
+            let apiEndpoint;
+            if (sourceLang === 'en' && targetLang === 'vi') {
+                apiEndpoint = '/en-to-vi';
+            } else if (sourceLang === 'vi' && targetLang === 'en') {
+                apiEndpoint = '/vi-to-en';
+            } else {
+                alert('Ngôn ngữ nguồn và đích không hợp lệ!');
+                return;
+            }
+
+            try {
+                // Gửi yêu cầu đến API dịch thuật
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sentence: inputText
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Dịch thất bại, vui lòng thử lại!');
+                }
+
+                const data = await response.json();
+
+                // Hiển thị kết quả dịch
+                document.getElementById('outputText').value = data.translation;
+            } catch (error) {
+                alert('Có lỗi xảy ra: ' + error.message);
+            }
+        });
+    </script>
+
 </body>
 
 </html>

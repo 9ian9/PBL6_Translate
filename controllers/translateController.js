@@ -7,27 +7,23 @@ exports.getTranslatePage = (req, res) => {
     res.render('translate', { title: 'Translate', userId });
 };
 
-// API xử lý dịch văn bản
-exports.translateText = async(req, res) => {
-    const { text, source, target } = req.body;
-
+// Gọi API Flask: Dịch từ Anh sang Việt
+exports.translateEnToVi = async(sentence) => {
     try {
-        // Gọi API dịch (thay bằng API thực tế, ví dụ Google Translate API)
-        const response = await axios.post('https://api.example.com/translate', {
-            text: text,
-            source: source,
-            target: target
-        });
-
-        // Trả kết quả dịch về cho client
-        res.json({ translatedText: response.data.translatedText });
+        const response = await axios.post('http://127.0.0.1:5000/translate', { sentence });
+        return response.data.translation;
     } catch (error) {
-        console.error('Error translating text:', error);
-        res.status(500).json({ message: 'Đã có lỗi xảy ra khi dịch văn bản.' });
+        console.error('Error calling Flask API:', error.message);
+        return null;
     }
 };
-
-
-exports.getVocabularyPage = (req, res) => {
-    res.render('vocabulary', { title: 'Vocabulary' });
-}
+// Gọi API Flask: Dịch từ Việt sang Anh
+exports.translateViToEn = async(sentence) => {
+    try {
+        const response = await axios.post('http://127.0.0.1:5000/translate_vi_en', { sentence });
+        return response.data.translation;
+    } catch (error) {
+        console.error('Error calling Flask API:', error.message);
+        return null;
+    }
+};
