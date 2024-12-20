@@ -1,5 +1,5 @@
 exports.getCallPage = (req, res) => {
-    const { userId } = req.query; // Lấy userId từ query string
+    const { userId } = req.session.user.id; // Lấy userId từ query string
     res.render('video', { title: 'Video Call', userId });
 };
 
@@ -12,5 +12,5 @@ exports.startCall = (req, res) => {
 exports.getVideoPage = (req, res) => {
     const { userId } = req.query;
     // Trả về trang video.ejs
-    res.render('video', { title: 'Video Call', userId });
+    res.render('message', { title: 'Video Call', userId });
 };

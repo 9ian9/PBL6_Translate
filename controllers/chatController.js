@@ -39,7 +39,7 @@ exports.getMessages = async(req, res) => {
 };
 
 exports.getChatPage = async(req, res) => {
-    const { userId } = req.query; // Lấy userId từ query string
+    const userId = req.session.user.id; // Lấy userId từ query string
     console.log(`Received userId from chatController: ${userId}`);
     if (!userId) {
         return res.status(400).send('User ID is required'); // Trả về lỗi nếu không có userId
@@ -50,7 +50,7 @@ exports.getChatPage = async(req, res) => {
         // Lọc ra người dùng hiện tại
         const filteredUsers = users.filter(user => user.id !== parseInt(userId));
 
-        res.render('video', { title: 'Chat', users: filteredUsers, userId });
+        res.render('message', { title: 'Chat', users: filteredUsers, userId });
     } catch (error) {
         console.log(error);
         res.status(500).send('Server error');

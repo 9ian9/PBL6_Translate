@@ -2,8 +2,8 @@ const Vocabulary = require('../models/Vocabulary'); // Mô hình Vocabulary
 const Topic = require('../models/Topic'); // Mô hình Topic
 
 exports.getVocabularyByTopicId = async(req, res) => {
-    const { topicId } = req.query; // Lấy topicId từ query string
-    const { userId } = req.query; // Lấy userId từ query string
+    const { topicId } = req.query;
+    const userId = req.session.user.id;
     console.log(`Received userId here: ${userId}`); // In ra userId để kiểm tra
     console.log(`Received topicId: ${topicId}`); // In ra topicId để kiểm tra
 
@@ -36,7 +36,7 @@ exports.getVocabularyByTopicId = async(req, res) => {
     }
 };
 exports.getVocabularyPage = async(req, res) => {
-    const { userId } = req.query; // Lấy userId từ query string
+    const userId = req.session.user.id;
     console.log(`Received userId from topicController: ${userId}`);
 
     if (!userId) {

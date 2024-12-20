@@ -2,7 +2,7 @@ const axios = require('axios');
 
 // Trang dịch thuật
 exports.getTranslatePage = (req, res) => {
-    const { userId } = req.query; // Lấy userId từ query string
+    const { userId } = req.session.user.id;
     console.log(`Received userId from translateController: ${userId}`);
     res.render('translate', { title: 'Translate', userId });
 };

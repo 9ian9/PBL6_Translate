@@ -12,9 +12,13 @@ const profileRouter = require('./routes/profileRouter');
 const topicRouter = require('./routes/topicRouter');
 const chatRoutes = require('./routes/chat');
 
+const socket = require('./controllers/socketController');
+
 const app = express();
 const server = http.Server(app);
 const io = socketIO(server);
+const session = require('express-session');
+require('dotenv').config();
 
 app.use(authRoutes);
 
@@ -27,6 +31,13 @@ app.use(express.json());
 // Cấu hình đường dẫn tĩnh
 app.use(express.static('public'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public/dist', express.static(path.join(__dirname, 'public', 'dist')));
+app.use(session({
+    secret: process.env.SESSION_SECRET, // Sử dụng chuỗi bí mật từ .env
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } //session hết hạn sau 24h
+}));
 
 // Cấu hình view engine là EJS
 app.set('view engine', 'ejs');
@@ -53,8 +64,9 @@ app.get('/', (req, res) => {
     res.render('register', { title: 'Register' });
 });
 
-app.get('/chat', (req, res) => {
-    res.render('chat'); // Đảm bảo rằng video.ejs có trong thư mục views
+app.get('/callVideo', (req, res) => {
+    res.render('callVideo');
+    // res.redirect('/callVideo');
 });
 
 
@@ -66,9 +78,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-// Cấu hình WebSocket
-// io.of('/stream').on('connection', stream);
 // Cấu hình WebSocket
 io.on('connection', (socket) => {
     console.log('A user connected');
@@ -107,5 +116,7 @@ io.on('connection', (socket) => {
 // Khởi động server
 const PORT = 3000;
 server.listen(PORT, () => {
+    socket(server);
+
     console.log(`Server is running on http://localhost:${PORT}`);
 });
