@@ -7,9 +7,7 @@
     <title>Translation web</title>
     <link rel="shortcut icon" type="image/png" href="../public/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../public/css/styles.min.css" />
-    <style>
 
-    </style>
 </head>
 
 <body>
@@ -135,7 +133,7 @@
                         </div>
 
                         <!-- Thêm Modal cho Sửa Từ -->
-                        <div id="editVocabularyModal" class="modal fade" tabindex="-1" role="dialog">
+                        <div id="editVocabularyModal" class="modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -174,9 +172,7 @@
         }
 
         function showEditVocabularyModal(vocabularyId) {
-            $('.modal-backdrop').remove();
-
-            $('#editVocabularyModal').modal('show');
+            document.getElementById('editVocabularyModal').style.display = 'block';
             fetch(`/vocabulary/edit/${vocabularyId}`) // Đảm bảo URL chính xác
                 .then(response => {
                     console.log('Response status:', response.status); // Ghi lại status code
@@ -209,7 +205,7 @@
 
         // Handle the form submission
         document.getElementById('editVocabularyForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); // Ngăn chặn hành động mặc định của form
 
             const id = document.getElementById('editVocabularyId').value;
             const englishWord = document.getElementById('editEnglishWord').value;
@@ -233,16 +229,27 @@
                     }
                 })
                 .then(updatedVocabulary => {
-                    // Update the vocabulary item in the UI
+                    // Tìm mục từ vựng trong giao diện
                     const vocabularyItem = document.querySelector(`.vocabulary-item[data-id="${updatedVocabulary.id}"]`);
-                    vocabularyItem.querySelector('strong').textContent = updatedVocabulary.english_word;
-                    vocabularyItem.querySelector('p').textContent = updatedVocabulary.vietnamese_meaning;
 
-                    // Hide the modal
-                    $('#editVocabularyModal').modal('hide');
+                    if (vocabularyItem) {
+                        // Cập nhật nội dung từ vựng trực tiếp trong giao diện
+                        vocabularyItem.querySelector('strong').textContent = updatedVocabulary.english_word;
+                        vocabularyItem.querySelector('p').textContent = updatedVocabulary.vietnamese_meaning;
+                    }
+
+                    // Hiển thị thông báo thành công
+                    alert('Cập nhật từ vựng thành công!');
+
+                    // Ẩn modal
+                    document.getElementById('editVocabularyModal').style.display = 'none';
                 })
-                .catch(error => console.error('Error updating vocabulary:', error));
+                .catch(error => {
+                    console.error('Error updating vocabulary:', error);
+                    alert('Đã xảy ra lỗi khi cập nhật từ vựng.');
+                });
         });
+
 
         function deleteVocabulary(vocabularyId) {
             // Xóa từ vựng qua API hoặc request
