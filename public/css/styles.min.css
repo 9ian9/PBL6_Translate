@@ -17937,6 +17937,7 @@ border-radius: 5px;
     height: 500px;
 flex-grow: 1;
 padding-left: 20px;
+overflow-y: auto;
 }
 .content-header {
     margin-top: 10px;

@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mysql://root@localhost:3306/pbl6', {
+const sequelize = new Sequelize('mysql://root@localhost:3306/translate_6', {
     dialect: 'mysql',
     logging: console.log
 });
@@ -24,6 +24,10 @@ const Topic = sequelize.define('Topic', {
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    imgTopic: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 }, {
     tableName: 'topic', // Đảm bảo tên bảng là 'topic'

@@ -1,21 +1,14 @@
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+const i18n = require('i18n');
+const path = require('path');
 
-import en from './locales/en.json'; // Import file JSON
-import vi from './locales/vi.json';
+i18n.configure({
+    locales: ['en', 'vi'], // Các ngôn ngữ hỗ trợ
+    directory: path.join(__dirname, '../locales'), // Đường dẫn đến thư mục locales
+    defaultLocale: 'en',
+    cookie: 'lang', // Cookie để lưu ngôn ngữ
+    autoReload: true, // Tự động tải lại khi file JSON thay đổi
+    syncFiles: true, // Đồng bộ các file JSON
+    queryParameter: 'lang'
+});
 
-i18next
-    .use(LanguageDetector) // Tự động phát hiện ngôn ngữ trình duyệt
-    .init({
-        resources: {
-            en: { translation: en }, // Tải nội dung từ en.json
-            vi: { translation: vi }, // Tải nội dung từ vi.json
-        },
-        fallbackLng: 'en', // Sử dụng tiếng Anh nếu không tìm thấy ngôn ngữ
-        debug: false,
-        interpolation: {
-            escapeValue: false, // Không escape, bảo vệ XSS
-        },
-    });
-
-export default i18next;
+module.exports = i18n;
