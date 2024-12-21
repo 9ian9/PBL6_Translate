@@ -8,6 +8,7 @@ router.get('/vocabulary', flashcardController.getVocabularyPage);
 // Route để thêm từ vựng
 router.post('/vocabulary/add', flashcardController.addVocabulary);
 
+router.get('/vocabulary/edit/:id', flashcardController.getVocabulary);
 // Route để sửa từ vựng
 router.put('/vocabulary/edit/:id', flashcardController.editVocabulary);
 

@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mysql://root@localhost:3306/pbl6', {
+const sequelize = new Sequelize('mysql://root@localhost:3306/translate_6', {
     dialect: 'mysql',
     logging: console.log
 });
@@ -11,6 +11,7 @@ sequelize.authenticate()
 const Topic = sequelize.define('Topic', {
     id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false,
         unique: true
@@ -19,6 +20,14 @@ const Topic = sequelize.define('Topic', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    imgTopic: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 }, {
     tableName: 'topic', // Đảm bảo tên bảng là 'topic'

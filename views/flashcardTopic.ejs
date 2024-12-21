@@ -4,13 +4,14 @@
         <h3>Featured Flashcards</h3>
         <div class="row">
             <% if (topics.length===0) { %>
-                <p>No topics available.</p>
+                <p>
+                    <%= __('no_topic') %>
+                </p>
                 <% } else { %>
                     <% topics.forEach(topic=> { %>
                         <div class="col-lg-3 mb-3">
                             <div class="card">
-                                <img src="https://via.placeholder.com/150" class="card-img-top"
-                                    alt="<%= topic.title %>">
+                                <img src="<%= topic.imgTopic %>" class="card-img-top" alt="<%= topic.title %>">
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         <%= topic.title %>
