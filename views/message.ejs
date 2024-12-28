@@ -11,8 +11,7 @@
 </head>
 
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
         <%- include('sidebar', { userId: userId }) %>
             <div class="body-wrapper">
                 <%- include('header') %>
@@ -28,8 +27,7 @@
                                             <span>
                                                 <%= user.username %>
                                             </span>
-                                            <button class="btn btn-sm btn-primary select-friend"
-                                                data-friend-id="<%= user.id %>">
+                                            <button class="btn btn-sm btn-primary select-friend" data-friend-id="<%= user.id %>">
                                                 <%= __('chat_with_title') %>
                                             </button>
                                         </li>
@@ -42,21 +40,18 @@
                                             <%= __('select_friend_placeholder') %>
                                         </span>
                                 </h5>
-                                <div class="chat-box border p-3 mb-2" style="height: 60vh; overflow-y: auto;"
-                                    id="chat-box">
+                                <div class="chat-box border p-3 mb-2" style="height: 60vh; overflow-y: auto;" id="chat-box">
                                     <p class="text-muted text-center">
                                         <%= __('chat_start_message') %>!
                                     </p>
                                 </div>
                                 <div class="d-flex">
-                                    <input type="text" id="message-input" class="form-control me-2"
-                                        placeholder="<%= __('message_input_placeholder') %>" />
+                                    <input type="text" id="message-input" class="form-control me-2" placeholder="<%= __('message_input_placeholder') %>" />
                                     <button id="microphone-button" class="btn btn-secondary me-2">
                                         <i class="fas fa-microphone"></i>
                                     </button>
                                     <!-- Hiển thị kết quả nhận diện -->
-                                    <button id="send-message" class="btn"
-                                        style="background-color: #0069d9; border-color: #0062cc;" disabled>
+                                    <button id="send-message" class="btn" style="background-color: #0069d9; border-color: #0062cc;" disabled>
                                         <%= __('send_message_button') %>
                                     </button>
                                 </div>
@@ -86,7 +81,7 @@
         const chatBox = document.getElementById('chat-box');
 
         document.querySelectorAll('.select-friend').forEach(button => {
-            button.addEventListener('click', async function () {
+            button.addEventListener('click', async function() {
                 const friendName = this.closest('.list-group-item').querySelector('span').innerText;
                 const receiverId = this.getAttribute('data-friend-id');
                 document.getElementById('chat-with').innerText = friendName;
@@ -123,7 +118,7 @@
 
         messageInput.addEventListener('input', updateSendButtonState);
         sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', function (event) {
+        messageInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 sendMessage();
             }
@@ -136,6 +131,14 @@
         function addTranslateButton() {
             // Chọn tất cả các tin nhắn
             const messageElements = document.querySelectorAll('.message .message-content');
+
+            // Lấy ngôn ngữ từ cookie
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            };
+            const lang = getCookie('lang') || 'en'; // Ngôn ngữ mặc định là tiếng Anh
 
             messageElements.forEach(messageElement => {
                 // Kiểm tra nếu nút dịch chưa tồn tại
@@ -157,10 +160,10 @@
                     messageElement.appendChild(translationDiv);
 
                     // Thêm sự kiện cho nút dịch
-                    translateButton.addEventListener('click', async function () {
+                    translateButton.addEventListener('click', async function() {
                         const inputText = messageElement.querySelector('.message-text').textContent.trim(); // Lấy nội dung của tin nhắn
-                        const sourceLang = 'en'; // Ví dụ: Mặc định là tiếng Anh
-                        const targetLang = 'vi'; // Ví dụ: Mặc định là dịch sang tiếng Việt
+                        const sourceLang = lang; // Sử dụng ngôn ngữ từ cookie
+                        const targetLang = sourceLang === 'en' ? 'vi' : 'en'; // Đổi ngôn ngữ
 
                         if (!inputText) {
                             alert('Không có nội dung để dịch!');
@@ -196,9 +199,13 @@
 
                             const data = await response.json();
 
-                            // Hiển thị kết quả dịch
-                            translationDiv.style.display = 'block'; // Hiển thị phần tử dịch
-                            translationDiv.innerHTML = `<p class="translation-text" style="color: #fff">${data.translation}</p>`;
+                            // Hiển thị hoặc ẩn phần tử dịch
+                            if (translationDiv.style.display === 'none') {
+                                translationDiv.style.display = 'block'; // Hiển thị phần tử dịch
+                                translationDiv.innerHTML = `<p class="translation-text" style="color: #fff">${data.translation}</p>`;
+                            } else {
+                                translationDiv.style.display = 'none'; // Ẩn phần tử dịch
+                            }
                         } catch (error) {
                             alert('Có lỗi xảy ra: ' + error.message);
                         }

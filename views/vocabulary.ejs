@@ -12,7 +12,8 @@
 
 <body>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
 
         <!-- Sidebar Start -->
         <%- include('sidebar')%>
@@ -29,10 +30,12 @@
 
                         <!-- Search Bar -->
                         <div class="search-bar">
-                            <input type="text" class="form-control" id="search-input" placeholder="Search vocabulary...">
+                            <input type="text" class="form-control" id="search-input"
+                                placeholder="Search vocabulary...">
                             <ul id="suggestions-list" class="suggestions-list" style="display: none;"></ul>
                         </div>
-                        <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">Thêm Từ Mới</button>
+                        <button class="btn btn-primary" onclick="showAddVocabularyModal()"
+                            style="margin-top: 20px;">Thêm Từ Mới</button>
 
                         <!-- Vocabulary Sections -->
                         <label for="vocabulary-container" class="vocabulary-label">List of vocabulary topics</label>
@@ -48,7 +51,8 @@
 
                             <div class="content">
                                 <% topics.forEach(topic=> { %>
-                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list" style="display: none;">
+                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list"
+                                        style="display: none;">
                                         <h3 class="content-header">
                                             <%= topic.title %>
                                         </h3>
@@ -63,13 +67,15 @@
                                                             <%= vocabulary.vietnamese_meaning %>
                                                         </p>
                                                         <div class="action-buttons">
-                                                            <button class="edit-button" onclick="showEditVocabularyModal('<%= vocabulary.id %>')">
+                                                            <button class="edit-button"
+                                                                onclick="showEditVocabularyModal('<%= vocabulary.id %>')">
                                                                 <span>
                                                                     <iconify-icon icon="uil:edit"
                                                                         class="fs-6"></iconify-icon>
                                                                 </span>
                                                             </button>
-                                                            <button class="delete-button" onclick="deleteVocabulary('<%= vocabulary.id %>')">
+                                                            <button class="delete-button"
+                                                                onclick="deleteVocabulary('<%= vocabulary.id %>')">
                                                                 <span>
                                                                     <iconify-icon
                                                                         icon="material-symbols:delete-outline-rounded"
@@ -139,7 +145,8 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Sửa Từ Vựng</h5>
-                                        <button type="button" class="close" aria-label="Close" onclick="closeEditVocabularyModal()">
+                                        <button type="button" class="close" aria-label="Close"
+                                            onclick="closeEditVocabularyModal()">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -153,7 +160,8 @@
                                             <div class="form-group">
                                                 <label for="editVietnameseMeaning">Nghĩa Tiếng
                                                     Việt</label>
-                                                <input type="text" class="form-control" id="editVietnameseMeaning" required>
+                                                <input type="text" class="form-control" id="editVietnameseMeaning"
+                                                    required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Cập
                                                 Nhật</button>
@@ -207,7 +215,7 @@
 
 
         // Handle the form submission
-        document.getElementById('editVocabularyForm').addEventListener('submit', function(event) {
+        document.getElementById('editVocabularyForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Ngăn chặn hành động mặc định của form
 
             const id = document.getElementById('editVocabularyId').value;
@@ -215,15 +223,15 @@
             const vietnameseMeaning = document.getElementById('editVietnameseMeaning').value;
 
             fetch(`/vocabulary/edit/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        englishWord,
-                        vietnameseMeaning,
-                    }),
-                })
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    englishWord,
+                    vietnameseMeaning,
+                }),
+            })
                 .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -254,9 +262,36 @@
         });
 
 
-        function deleteVocabulary(vocabularyId) {
-            // Xóa từ vựng qua API hoặc request
+        async function deleteVocabulary(vocabularyId) {
+            const confirmDelete = confirm("Are you sure you want to delete this vocabulary?");
+            if (!confirmDelete) {
+                return; // Nếu người dùng hủy bỏ, không thực hiện gì.
+            }
+
+            try {
+                const response = await fetch(`/vocabulary/delete/${vocabularyId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.status === 204) {
+                    alert('Vocabulary deleted successfully');
+                    location.reload();
+                    // Xóa phần tử từ giao diện nếu cần
+                    const vocabElement = document.getElementById(`vocabulary-${vocabularyId}`);
+                    if (vocabElement) {
+                        vocabElement.remove();
+                    }
+                } else if (response.status === 404) {
+                    alert('Vocabulary not found');
+                } else {
+                    alert('Failed to delete vocabulary');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while deleting vocabulary');
+            }
         }
+
 
         function showVocabulary(topicId) {
             // Hide all vocabulary lists
@@ -269,7 +304,7 @@
                 selectedList.style.display = 'block';
             }
         }
-        document.getElementById('topicSelect').addEventListener('change', function() {
+        document.getElementById('topicSelect').addEventListener('change', function () {
             const newTopicGroup = document.getElementById('newTopicGroup');
             if (this.value === 'new') {
                 newTopicGroup.style.display = 'block';
@@ -277,7 +312,7 @@
                 newTopicGroup.style.display = 'none';
             }
         });
-        document.getElementById('addVocabularyForm').addEventListener('submit', async function(e) {
+        document.getElementById('addVocabularyForm').addEventListener('submit', async function (e) {
             e.preventDefault(); // Ngăn form nạp lại trang
             const englishWord = document.getElementById('englishWord').value;
             const vietnameseMeaning = document.getElementById('vietnameseMeaning').value;
@@ -322,7 +357,7 @@
     </script>
 
     <script>
-        document.getElementById('search-input').addEventListener('input', function() {
+        document.getElementById('search-input').addEventListener('input', function () {
             const searchValue = this.value.toLowerCase();
             const items = document.querySelectorAll('.vocabulary-item');
 
@@ -339,7 +374,7 @@
         });
     </script>
     <script>
-        document.getElementById('search-input').addEventListener('input', function() {
+        document.getElementById('search-input').addEventListener('input', function () {
             const searchValue = this.value.toLowerCase(); // Lấy từ khóa tìm kiếm và chuyển thành chữ thường
             const items = document.querySelectorAll('.vocabulary-item'); // Lấy tất cả các mục từ vựng
 
