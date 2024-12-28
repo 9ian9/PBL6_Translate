@@ -10,26 +10,32 @@
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                <a href="#" target="_blank" class="btn btn-primary me-2"><span class="d-none d-md-block">Contact</span> <span
-            class="d-block d-md-none">Pro</span></a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="ti ti-world fs-6"></i>
-                        <span class="d-none d-md-block"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="languageDropdown">
-                        <a href="javascript:void(0)" class="dropdown-item" onclick="changeLanguage('en')">
-                            <i class="ti ti-flag me-2"></i> English
-                        </a>
-                        <a href="javascript:void(0)" class="dropdown-item" onclick="changeLanguage('vi')">
-                            <i class="ti ti-flag me-2"></i> Vietnamese
-                        </a>
-                    </div>
+                <a href="#" target="_blank" class="btn btn-primary me-2"><span class="d-none d-md-block">Contact</span>
+                    <span class="d-block d-md-none">Pro</span></a>
+                <div class="dropdown" id="languageDropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="currentLanguage"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="ti ti-flag me-2"></i><span>Select language</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="currentLanguage">
+                        <li>
+                            <a href="javascript:void(0)" class="dropdown-item" onclick="changeLanguage('en')">
+                                <i class="ti ti-flag me-2 text-primary"></i> English
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" class="dropdown-item" onclick="changeLanguage('vi')">
+                                <i class="ti ti-flag me-2 text-success"></i> Vietnamese
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../public/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="../public/images/profile/user-1.jpg" alt="" width="35" height="35"
+                            class="rounded-circle">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                         <div class="message-body">
@@ -46,6 +52,14 @@
     </nav>
     <script>
         function changeLanguage(lang) {
+            const languageButton = document.getElementById('currentLanguage').querySelector('span');
+
+            // Cập nhật văn bản hiển thị theo ngôn ngữ được chọn
+            if (lang === 'en') {
+                languageButton.textContent = 'English';
+            } else if (lang === 'vi') {
+                languageButton.textContent = 'Vietnamese';
+            }
             // Đặt cookie để lưu ngôn ngữ
             document.cookie = `lang=${lang}; path=/`;
             // Tải lại trang để áp dụng ngôn ngữ

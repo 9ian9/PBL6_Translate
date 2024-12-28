@@ -13,6 +13,7 @@ const topicRouter = require('./routes/topicRouter');
 const chatRoutes = require('./routes/chat');
 const i18n = require('./public/js/i18n');
 const cookieParser = require('cookie-parser');
+const listEndpoints = require('express-list-endpoints');
 
 
 const socket = require('./controllers/socketController');
@@ -133,6 +134,7 @@ io.on('connection', (socket) => {
 const PORT = 3000;
 server.listen(PORT, () => {
     socket(server);
-
+    console.log(listEndpoints(app));
     console.log(`Server is running on http://localhost:${PORT}`);
+
 });

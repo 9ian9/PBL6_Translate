@@ -132,6 +132,14 @@
             // Chọn tất cả các tin nhắn
             const messageElements = document.querySelectorAll('.message .message-content');
 
+            // Lấy ngôn ngữ từ cookie
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            };
+            const lang = getCookie('lang') || 'en'; // Ngôn ngữ mặc định là tiếng Anh
+
             messageElements.forEach(messageElement => {
                 // Kiểm tra nếu nút dịch chưa tồn tại
                 if (!messageElement.querySelector('.translate-btn')) {
@@ -154,8 +162,8 @@
                     // Thêm sự kiện cho nút dịch
                     translateButton.addEventListener('click', async function() {
                         const inputText = messageElement.querySelector('.message-text').textContent.trim(); // Lấy nội dung của tin nhắn
-                        const sourceLang = 'en'; // Ví dụ: Mặc định là tiếng Anh
-                        const targetLang = 'vi'; // Ví dụ: Mặc định là dịch sang tiếng Việt
+                        const sourceLang = lang; // Sử dụng ngôn ngữ từ cookie
+                        const targetLang = sourceLang === 'en' ? 'vi' : 'en'; // Đổi ngôn ngữ
 
                         if (!inputText) {
                             alert('Không có nội dung để dịch!');
@@ -191,9 +199,13 @@
 
                             const data = await response.json();
 
-                            // Hiển thị kết quả dịch
-                            translationDiv.style.display = 'block'; // Hiển thị phần tử dịch
-                            translationDiv.innerHTML = `<p class="translation-text">${data.translation}</p>`;
+                            // Hiển thị hoặc ẩn phần tử dịch
+                            if (translationDiv.style.display === 'none') {
+                                translationDiv.style.display = 'block'; // Hiển thị phần tử dịch
+                                translationDiv.innerHTML = `<p class="translation-text" style="color: #fff">${data.translation}</p>`;
+                            } else {
+                                translationDiv.style.display = 'none'; // Ẩn phần tử dịch
+                            }
                         } catch (error) {
                             alert('Có lỗi xảy ra: ' + error.message);
                         }

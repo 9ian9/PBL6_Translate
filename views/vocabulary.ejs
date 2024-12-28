@@ -12,7 +12,8 @@
 
 <body>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
 
         <!-- Sidebar Start -->
         <%- include('sidebar')%>
@@ -29,10 +30,12 @@
 
                         <!-- Search Bar -->
                         <div class="search-bar">
-                            <input type="text" class="form-control" id="search-input" placeholder="Search vocabulary...">
+                            <input type="text" class="form-control" id="search-input"
+                                placeholder="Search vocabulary...">
                             <ul id="suggestions-list" class="suggestions-list" style="display: none;"></ul>
                         </div>
-                        <button class="btn btn-primary" onclick="showAddVocabularyModal()" style="margin-top: 20px;">Thêm Từ Mới</button>
+                        <button class="btn btn-primary" onclick="showAddVocabularyModal()"
+                            style="margin-top: 20px;">Thêm Từ Mới</button>
 
                         <!-- Vocabulary Sections -->
                         <label for="vocabulary-container" class="vocabulary-label">List of vocabulary topics</label>
@@ -48,7 +51,8 @@
 
                             <div class="content">
                                 <% topics.forEach(topic=> { %>
-                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list" style="display: none;">
+                                    <div id="vocabularies-<%= topic.id %>" class="vocabulary-list"
+                                        style="display: none;">
                                         <h3 class="content-header">
                                             <%= topic.title %>
                                         </h3>
@@ -63,13 +67,15 @@
                                                             <%= vocabulary.vietnamese_meaning %>
                                                         </p>
                                                         <div class="action-buttons">
-                                                            <button class="edit-button" onclick="showEditVocabularyModal('<%= vocabulary.id %>')">
+                                                            <button class="edit-button"
+                                                                onclick="showEditVocabularyModal('<%= vocabulary.id %>')">
                                                                 <span>
                                                                     <iconify-icon icon="uil:edit"
                                                                         class="fs-6"></iconify-icon>
                                                                 </span>
                                                             </button>
-                                                            <button class="delete-button" onclick="deleteVocabulary('<%= vocabulary.id %>')">
+                                                            <button class="delete-button"
+                                                                onclick="deleteVocabulary('<%= vocabulary.id %>')">
                                                                 <span>
                                                                     <iconify-icon
                                                                         icon="material-symbols:delete-outline-rounded"
@@ -89,290 +95,310 @@
 
                         </div>
 
+
                         <!-- Modal cho thêm từ mới -->
                         <div id="addVocabularyModal" class="modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">add new words</h5>
+                                        <h5 class="modal-title">Thêm Từ Mới</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
 
-                                        <!-- Modal cho thêm từ mới -->
-                                        <div id="addVocabularyModal" class="modal" tabindex="-1" role="dialog">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Thêm Từ Mới</h5>
-                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form id="addVocabularyForm">
-                                                            <div class="form-group">
-                                                                <label for="englishWord">Từ Tiếng Anh</label>
-                                                                <input type="text" class="form-control" id="englishWord" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="vietnameseMeaning">Nghĩa Tiếng Việt</label>
-                                                                <input type="text" class="form-control" id="vietnameseMeaning" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="topicSelect">Chọn Topic</label>
-                                                                <select class="form-control" id="topicSelect">
-                                                                    <% topics.forEach(topic=> { %>
-                                                                        <option value="<%= topic.id %>">
-                                                                            <%= topic.title %>
-                                                                        </option>
-                                                                        <% }); %>
-                                                                            <option value="new">Thêm Topic Mới</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group" id="newTopicGroup" style="display: none;">
-                                                                <label for="newTopic">Tên Topic Mới</label>
-                                                                <input type="text" class="form-control" id="newTopic">
-                                                            </div>
-                                                            <button type="submit" class="btn btn-primary">Thêm</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Thêm Modal cho Sửa Từ -->
-                                        <div id="editVocabularyModal" class="modal" tabindex="-1" role="dialog">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Sửa Từ Vựng</h5>
-                                                        <button type="button" class="close" aria-label="Close" onclick="closeEditVocabularyModal()">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form id="editVocabularyForm">
-                                                            <input type="hidden" id="editVocabularyId">
-                                                            <div class="form-group">
-                                                                <label for="editEnglishWord">Từ Tiếng Anh</label>
-                                                                <input type="text" class="form-control" id="editEnglishWord" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="editVietnameseMeaning">Nghĩa Tiếng
-                                                                    Việt</label>
-                                                                <input type="text" class="form-control" id="editVietnameseMeaning" required>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-primary">Cập
-                                                                Nhật</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
-
+                                    <div class="modal-body">
+                                        <form id="addVocabularyForm">
+                                            <div class="form-group">
+                                                <label for="englishWord">Từ Tiếng Anh</label>
+                                                <input type="text" class="form-control" id="englishWord" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vietnameseMeaning">Nghĩa Tiếng Việt</label>
+                                                <input type="text" class="form-control" id="vietnameseMeaning" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="topicSelect">Chọn Topic</label>
+                                                <select class="form-control" id="topicSelect">
+                                                    <% topics.forEach(topic=> { %>
+                                                        <option value="<%= topic.id %>">
+                                                            <%= topic.title %>
+                                                        </option>
+                                                        <% }); %>
+                                                            <option value="new">Thêm Topic Mới</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" id="newTopicGroup" style="display: none;">
+                                                <label for="newTopic">Tên Topic Mới</label>
+                                                <input type="text" class="form-control" id="newTopic">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Thêm</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Optional: Add JavaScript for search functionality -->
-                        <script>
-                            function showAddVocabularyModal() {
-                                document.getElementById('addVocabularyModal').style.display = 'block';
-                            }
 
-                            function showEditVocabularyModal(vocabularyId) {
-                                document.getElementById('editVocabularyModal').style.display = 'block';
-                                fetch(`/vocabulary/edit/${vocabularyId}`) // Đảm bảo URL chính xác
-                                    .then(response => {
-                                        console.log('Response status:', response.status); // Ghi lại status code
-                                        if (!response.ok) {
-                                            throw new Error('Không thể lấy thông tin từ vựng!');
-                                        }
-                                        return response.json();
-                                    })
-                                    .then(data => {
-                                        console.log('Dữ liệu nhận được:', data); // Ghi lại dữ liệu trả về
+                        <!-- Thêm Modal cho Sửa Từ -->
+                        <div id="editVocabularyModal" class="modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Sửa Từ Vựng</h5>
+                                        <button type="button" class="close" aria-label="Close"
+                                            onclick="closeEditVocabularyModal()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="editVocabularyForm">
+                                            <input type="hidden" id="editVocabularyId">
+                                            <div class="form-group">
+                                                <label for="editEnglishWord">Từ Tiếng Anh</label>
+                                                <input type="text" class="form-control" id="editEnglishWord" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="editVietnameseMeaning">Nghĩa Tiếng
+                                                    Việt</label>
+                                                <input type="text" class="form-control" id="editVietnameseMeaning"
+                                                    required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Cập
+                                                Nhật</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                        // Điền thông tin vào modal
-                                        document.getElementById('editVocabularyId').value = data.id;
-                                        document.getElementById('editEnglishWord').value = data.english_word;
-                                        document.getElementById('editVietnameseMeaning').value = data.vietnamese_meaning;
-                                    })
-                                    .catch(error => {
-                                        console.error('Error:', error); // Log lỗi
-                                        alert(error.message); // Hiển thị lỗi cho người dùng
-                                    });
-                            }
+                    </div>
 
+            </div>
+    </div>
+    </div>
+    <!-- Optional: Add JavaScript for search functionality -->
+    <script>
+        function showAddVocabularyModal() {
+            document.getElementById('addVocabularyModal').style.display = 'block';
+        }
 
-                            // Hàm đóng modal
-                            function closeEditVocabularyModal() {
-                                const modal = document.getElementById('editVocabularyModal');
-                                modal.style.display = 'none'; // Ẩn modal
-                            }
+        function showEditVocabularyModal(vocabularyId) {
+            document.getElementById('editVocabularyModal').style.display = 'block';
+            fetch(`/vocabulary/edit/${vocabularyId}`) // Đảm bảo URL chính xác
+                .then(response => {
+                    console.log('Response status:', response.status); // Ghi lại status code
+                    if (!response.ok) {
+                        throw new Error('Không thể lấy thông tin từ vựng!');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Dữ liệu nhận được:', data); // Ghi lại dữ liệu trả về
 
-
-                            // Handle the form submission
-                            document.getElementById('editVocabularyForm').addEventListener('submit', function(event) {
-                                event.preventDefault(); // Ngăn chặn hành động mặc định của form
-
-                                const id = document.getElementById('editVocabularyId').value;
-                                const englishWord = document.getElementById('editEnglishWord').value;
-                                const vietnameseMeaning = document.getElementById('editVietnameseMeaning').value;
-
-                                fetch(`/vocabulary/edit/${id}`, {
-                                        method: 'PUT',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({
-                                            englishWord,
-                                            vietnameseMeaning,
-                                        }),
-                                    })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            return response.json();
-                                        } else {
-                                            throw new Error('Failed to update vocabulary');
-                                        }
-                                    })
-                                    .then(updatedVocabulary => {
-                                        // Tìm mục từ vựng trong giao diện
-                                        const vocabularyItem = document.querySelector(`.vocabulary-item[data-id="${updatedVocabulary.id}"]`);
-
-                                        if (vocabularyItem) {
-                                            // Cập nhật nội dung từ vựng trực tiếp trong giao diện
-                                            vocabularyItem.querySelector('strong').textContent = updatedVocabulary.english_word;
-                                            vocabularyItem.querySelector('p').textContent = updatedVocabulary.vietnamese_meaning;
-                                        }
-
-                                        // Hiển thị thông báo thành công
-                                        alert('Cập nhật từ vựng thành công!');
-
-                                        // Ẩn modal
-                                        document.getElementById('editVocabularyModal').style.display = 'none';
-                                    })
-                                    .catch(error => {
-                                        console.error('Error updating vocabulary:', error);
-                                        alert('Đã xảy ra lỗi khi cập nhật từ vựng.');
-                                    });
-                            });
+                    // Điền thông tin vào modal
+                    document.getElementById('editVocabularyId').value = data.id;
+                    document.getElementById('editEnglishWord').value = data.english_word;
+                    document.getElementById('editVietnameseMeaning').value = data.vietnamese_meaning;
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Log lỗi
+                    alert(error.message); // Hiển thị lỗi cho người dùng
+                });
+        }
 
 
-                            function deleteVocabulary(vocabularyId) {
-                                // Xóa từ vựng qua API hoặc request
-                            }
+        // Hàm đóng modal
+        function closeEditVocabularyModal() {
+            const modal = document.getElementById('editVocabularyModal');
+            modal.style.display = 'none'; // Ẩn modal
+        }
 
-                            function showVocabulary(topicId) {
-                                // Hide all vocabulary lists
-                                const allLists = document.querySelectorAll('.vocabulary-list');
-                                allLists.forEach(list => list.style.display = 'none');
 
-                                // Show the selected vocabulary list
-                                const selectedList = document.getElementById(`vocabularies-${topicId}`);
-                                if (selectedList) {
-                                    selectedList.style.display = 'block';
-                                }
-                            }
-                            document.getElementById('topicSelect').addEventListener('change', function() {
-                                const newTopicGroup = document.getElementById('newTopicGroup');
-                                if (this.value === 'new') {
-                                    newTopicGroup.style.display = 'block';
-                                } else {
-                                    newTopicGroup.style.display = 'none';
-                                }
-                            });
-                            document.getElementById('addVocabularyForm').addEventListener('submit', async function(e) {
-                                e.preventDefault(); // Ngăn form nạp lại trang
-                                const englishWord = document.getElementById('englishWord').value;
-                                const vietnameseMeaning = document.getElementById('vietnameseMeaning').value;
-                                const topicId = document.getElementById('topicSelect').value;
-                                const newTopic = topicId === 'new' ? document.getElementById('newTopic').value : null;
-                                try {
-                                    const response = await fetch('/vocabulary/add', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({
-                                            englishWord,
-                                            vietnameseMeaning,
-                                            topicId: topicId === 'new' ? null : topicId,
-                                            newTopic,
-                                        }),
-                                    });
-                                    if (response.ok) {
-                                        const result = await response.json();
-                                        alert('Thêm từ vựng thành công!');
-                                        location.reload(); // Reload lại trang để hiển thị từ vựng mới
-                                    } else {
-                                        alert('Có lỗi xảy ra khi thêm từ vựng!');
-                                    }
-                                } catch (error) {
-                                    console.error('Error:', error);
-                                    alert('Không thể kết nối đến server!');
-                                }
-                            });
-                        </script>
+        // Handle the form submission
+        document.getElementById('editVocabularyForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Ngăn chặn hành động mặc định của form
 
-                        <script>
-                            function toggleVocabulary(topicId) {
-                                const vocabList = document.getElementById(`vocabularies-${topicId}`);
-                                if (vocabList.style.display === "none") {
-                                    vocabList.style.display = "block";
-                                } else {
-                                    vocabList.style.display = "none";
-                                }
-                            }
-                        </script>
+            const id = document.getElementById('editVocabularyId').value;
+            const englishWord = document.getElementById('editEnglishWord').value;
+            const vietnameseMeaning = document.getElementById('editVietnameseMeaning').value;
 
-                        <script>
-                            document.getElementById('search-input').addEventListener('input', function() {
-                                const searchValue = this.value.toLowerCase();
-                                const items = document.querySelectorAll('.vocabulary-item');
+            fetch(`/vocabulary/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    englishWord,
+                    vietnameseMeaning,
+                }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to update vocabulary');
+                    }
+                })
+                .then(updatedVocabulary => {
+                    // Tìm mục từ vựng trong giao diện
+                    const vocabularyItem = document.querySelector(`.vocabulary-item[data-id="${updatedVocabulary.id}"]`);
 
-                                items.forEach(item => {
-                                    const title = item.querySelector('h5').textContent.toLowerCase();
-                                    const description = item.querySelector('p').textContent.toLowerCase();
+                    if (vocabularyItem) {
+                        // Cập nhật nội dung từ vựng trực tiếp trong giao diện
+                        vocabularyItem.querySelector('strong').textContent = updatedVocabulary.english_word;
+                        vocabularyItem.querySelector('p').textContent = updatedVocabulary.vietnamese_meaning;
+                    }
 
-                                    if (title.includes(searchValue) || description.includes(searchValue)) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                });
-                            });
-                        </script>
-                        <script>
-                            document.getElementById('search-input').addEventListener('input', function() {
-                                const searchValue = this.value.toLowerCase(); // Lấy từ khóa tìm kiếm và chuyển thành chữ thường
-                                const items = document.querySelectorAll('.vocabulary-item'); // Lấy tất cả các mục từ vựng
+                    // Hiển thị thông báo thành công
+                    alert('Cập nhật từ vựng thành công!');
+                    location.reload();
+                    // Ẩn modal
+                    document.getElementById('editVocabularyModal').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error updating vocabulary:', error);
+                    alert('Đã xảy ra lỗi khi cập nhật từ vựng.');
+                });
+        });
 
-                                items.forEach(item => {
-                                    const title = item.querySelector('.vocabulary-content strong').textContent.toLowerCase(); // Lấy từ Tiếng Anh
-                                    const description = item.querySelector('.vocabulary-content p').textContent.toLowerCase(); // Lấy nghĩa Tiếng Việt
 
-                                    // Kiểm tra xem từ khóa tìm kiếm có xuất hiện trong từ Tiếng Anh hoặc nghĩa Tiếng Việt không
-                                    if (title.includes(searchValue) || description.includes(searchValue)) {
-                                        item.style.display = 'block'; // Hiển thị từ vựng
-                                    } else {
-                                        item.style.display = 'none'; // Ẩn từ vựng
-                                    }
-                                });
-                            });
-                        </script>
-                        <script src="../public/libs/jquery/dist/jquery.min.js"></script>
-                        <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                        <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
-                        <script src="../public/libs/simplebar/dist/simplebar.js"></script>
-                        <script src="../public/js/sidebarmenu.js"></script>
-                        <script src="../public/js/app.min.js"></script>
-                        <script src="../public/js/dashboard.js"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+        async function deleteVocabulary(vocabularyId) {
+            const confirmDelete = confirm("Are you sure you want to delete this vocabulary?");
+            if (!confirmDelete) {
+                return; // Nếu người dùng hủy bỏ, không thực hiện gì.
+            }
+
+            try {
+                const response = await fetch(`/vocabulary/delete/${vocabularyId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.status === 204) {
+                    alert('Vocabulary deleted successfully');
+                    location.reload();
+                    // Xóa phần tử từ giao diện nếu cần
+                    const vocabElement = document.getElementById(`vocabulary-${vocabularyId}`);
+                    if (vocabElement) {
+                        vocabElement.remove();
+                    }
+                } else if (response.status === 404) {
+                    alert('Vocabulary not found');
+                } else {
+                    alert('Failed to delete vocabulary');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while deleting vocabulary');
+            }
+        }
+
+
+        function showVocabulary(topicId) {
+            // Hide all vocabulary lists
+            const allLists = document.querySelectorAll('.vocabulary-list');
+            allLists.forEach(list => list.style.display = 'none');
+
+            // Show the selected vocabulary list
+            const selectedList = document.getElementById(`vocabularies-${topicId}`);
+            if (selectedList) {
+                selectedList.style.display = 'block';
+            }
+        }
+        document.getElementById('topicSelect').addEventListener('change', function () {
+            const newTopicGroup = document.getElementById('newTopicGroup');
+            if (this.value === 'new') {
+                newTopicGroup.style.display = 'block';
+            } else {
+                newTopicGroup.style.display = 'none';
+            }
+        });
+        document.getElementById('addVocabularyForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Ngăn form nạp lại trang
+            const englishWord = document.getElementById('englishWord').value;
+            const vietnameseMeaning = document.getElementById('vietnameseMeaning').value;
+            const topicId = document.getElementById('topicSelect').value;
+            const newTopic = topicId === 'new' ? document.getElementById('newTopic').value : null;
+            try {
+                const response = await fetch('/vocabulary/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        englishWord,
+                        vietnameseMeaning,
+                        topicId: topicId === 'new' ? null : topicId,
+                        newTopic,
+                    }),
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('Thêm từ vựng thành công!');
+                    location.reload(); // Reload lại trang để hiển thị từ vựng mới
+                } else {
+                    alert('Có lỗi xảy ra khi thêm từ vựng!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Không thể kết nối đến server!');
+            }
+        });
+    </script>
+
+    <script>
+        function toggleVocabulary(topicId) {
+            const vocabList = document.getElementById(`vocabularies-${topicId}`);
+            if (vocabList.style.display === "none") {
+                vocabList.style.display = "block";
+            } else {
+                vocabList.style.display = "none";
+            }
+        }
+    </script>
+
+    <script>
+        document.getElementById('search-input').addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase();
+            const items = document.querySelectorAll('.vocabulary-item');
+
+            items.forEach(item => {
+                const title = item.querySelector('h5').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(searchValue) || description.includes(searchValue)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('search-input').addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase(); // Lấy từ khóa tìm kiếm và chuyển thành chữ thường
+            const items = document.querySelectorAll('.vocabulary-item'); // Lấy tất cả các mục từ vựng
+
+            items.forEach(item => {
+                const title = item.querySelector('.vocabulary-content strong').textContent.toLowerCase(); // Lấy từ Tiếng Anh
+                const description = item.querySelector('.vocabulary-content p').textContent.toLowerCase(); // Lấy nghĩa Tiếng Việt
+
+                // Kiểm tra xem từ khóa tìm kiếm có xuất hiện trong từ Tiếng Anh hoặc nghĩa Tiếng Việt không
+                if (title.includes(searchValue) || description.includes(searchValue)) {
+                    item.style.display = 'block'; // Hiển thị từ vựng
+                } else {
+                    item.style.display = 'none'; // Ẩn từ vựng
+                }
+            });
+        });
+    </script>
+    <script src="../public/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../public/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../public/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../public/js/sidebarmenu.js"></script>
+    <script src="../public/js/app.min.js"></script>
+    <script src="../public/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 
 </body>
 
